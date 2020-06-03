@@ -12,7 +12,7 @@ awh = yes
 awh-potential = convolved
 awh-nstout = 50000
 awh-nstsample = 1
-awh-nsamples-update = 5000
+awh-nsamples-update = 500
 awh-nbias = 1
 awh1-growth =  exp-linear  ;  linear   ; linear when good PMF estimate is already provided
 awh1-target = constant
@@ -20,7 +20,7 @@ awh1-ndim = 1
 awh1-dim1-start = -4.0
 awh1-dim1-end   =  4.0
 awh1-dim1-force-constant   = 99000.0
-awh1-dim1-diffusion = 1e-5  ;nm2/ps ; estimate for water-based liquids
+awh1-dim1-diffusion = 2e-4  ;nm2/ps ; good estimate for Martini liquids 
 awh1-user-data = yes  ; provide initial guess of PMF profile as a file during the runtime
 
 pull = yes

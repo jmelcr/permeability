@@ -1,0 +1,11 @@
+; Include forcefield parameters
+; The actual location of these files might be different on your computer!
+#include "/coarse/helgi/BE-basic/yeast/lipid-itps/martini_v2.1.itp"
+;#include "/coarse/helgi/BE-basic/yeast/lipid-itps/martini_v2.0_ions.itp"
+;#include "/coarse/helgi/BE-basic/yeast/lipid-itps/martini_v2.0_YEAST_beta01.itp"
+#include "/coarse/josef/Martini/martini_v2.0_lipids_all_201506.itp"
+#include "/coarse/helgi/BE-basic/yeast/lipid-itps/martini_v2.0_DOXC_02-fc2.itp"
+#include "/coarse/helgi/BE-basic/yeast/lipid-itps/martini_v2.0_DOXE_02-fc2.itp"
+#include "/coarse/josef/Martini/martini_2.1_yeast_lipids_fromHelgi/martini_v2.0_ethanol.itp"
+#include "/coarse/josef/Martini/martini_2.1_yeast_lipids_fromHelgi/martini_v2.0_ions.itp"
+
