@@ -1,6 +1,6 @@
 #!/bin/bash
 
-conf_init_stitched="conf_CHOL45p_stitched.pdb"
+conf_init_stitched="conf_CHOL35p_stitched.pdb"
 
 # make index file - numbers shall work withing the same version of GMX (2019)
 gmx make_ndx -f ${conf_init_stitched} <<< ' 2 | 3 | 4
