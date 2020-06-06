@@ -1,0 +1,23 @@
+; Include forcefield parameters
+; The actual location of these files might be different on your computer!
+#include "/coarse/josef/Martini/martini_3-final/martini_v3.0.4.itp"
+#include "/coarse/josef/Martini/martini_3-final/martini_v3.0_ions.itp"
+#include "/coarse/josef/Martini/martini_3-final/martini_v3.0_phospholipids.itp"
+#include "/coarse/josef/Martini/martini_3-final/martini_v3.0_solvents.itp"
+#include "/coarse/josef/Martini/martini_3-final/martini_v3.0_sterols.itp"
+
+
+[ system ]
+; name
+INSANE! Membrane UpperLeaflet>DOPC:CHOL=168.0:72.0 LowerLeaflet>DOPC:CHOL=168.0:72.0
+
+[ molecules ]
+; name  number
+DPPC            179
+POPC            0 
+CHOL            77
+DPPC            179
+POPC            0 
+CHOL            77
+EOL    1
+W     27724

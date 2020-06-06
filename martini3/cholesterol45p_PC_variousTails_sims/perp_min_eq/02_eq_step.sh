@@ -38,7 +38,7 @@ done
 
 # EQ with pressure coupling
 
-for dt in 002 003 004 005 007 010 015 020
+for dt in 002 004 005 007 010 015 020
 do
 
 eqno="eq_dt_${dt}"
