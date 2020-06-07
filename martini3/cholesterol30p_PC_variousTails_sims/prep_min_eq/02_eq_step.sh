@@ -24,6 +24,7 @@ then
 	    -e 's/Pcoupl                   = parrinello-rahman/Pcoupl                   = no/g' \
 	    -e "s/dt                       = 0.02/dt                       = 0.${dt}/g" \
 	    -e "s/awh1-user-data = yes/awh1-user-data = no/g" \
+	    -e "s/ref_t                    = 293 293/ref_t                    = 313 313/g" \
 	    ${source_mdp}  > ${mdpfname}
 
 	gmx grompp -f ${mdpfname} -c ${conf_init} -p system_1mol.top -n index.ndx -o ${eqno}
@@ -37,8 +38,9 @@ done
 
 
 # EQ with pressure coupling
+# at a higher temperature to prevent water crystalization
 
-for dt in 002 003 004 005 007 010 015 020
+for dt in 005 010 015 020
 do
 
 eqno="eq_dt_${dt}"
@@ -51,6 +53,7 @@ then
 	sed -e "s/awh1-user-data = yes/awh1-user-data = no/g" \
 	    -e 's/Pcoupl                   = parrinello-rahman/Pcoupl                   = berendsen/g' \
 	    -e "s/dt                       = 0.02/dt                       = 0.${dt}/g" \
+	    -e "s/ref_t                    = 293 293/ref_t                    = 313 313/g" \
 	    ${source_mdp}  > ${mdpfname}
 
 	gmx grompp -f ${mdpfname} -c ${conf_init} -t ${conf_init}.cpt -p system_1mol.top -n index.ndx -o ${eqno}

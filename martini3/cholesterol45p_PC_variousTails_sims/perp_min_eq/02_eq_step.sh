@@ -26,7 +26,7 @@ then
 	    -e "s/awh1-user-data = yes/awh1-user-data = no/g" \
 	    ${source_mdp}  > ${mdpfname}
 
-	gmx grompp -f ${mdpfname} -c ${conf_init} -p system_1mol.top -n index.ndx -o ${eqno}
+	gmx grompp -f ${mdpfname} -c ${conf_init} -p system_1mol.top -n index.ndx -o ${eqno} -maxwarn 1
 
 	gmx mdrun -v -nsteps 10000 -deffnm ${eqno}
 fi
