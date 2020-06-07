@@ -2,7 +2,7 @@
 
 rootdir=`pwd`
 
-for phase in gel fluid
+for phase in LOrdered
 do
 
 for d in `find -type d -name "*sim1_awh*${phase}"`

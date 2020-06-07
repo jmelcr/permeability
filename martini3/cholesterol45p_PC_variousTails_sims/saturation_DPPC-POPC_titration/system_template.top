@@ -13,9 +13,9 @@ _SYS_NAME_
 ; name  number
 DPPC           _N_SAT_
 POPC           _N_UNSAT_
-CHOL            32
+CHOL            96
 DPPC           _N_SAT_
 POPC           _N_UNSAT_
-CHOL            32
+CHOL            96
 _PERM_             1
-W     27724
+W               27724
