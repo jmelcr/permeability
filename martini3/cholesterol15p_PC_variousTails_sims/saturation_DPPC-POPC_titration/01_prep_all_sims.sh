@@ -4,7 +4,8 @@
 #
 # both sturation level as well as permeating particle size is varied
 
-n_lipids_tot=169
+#only phospholipids, which are being titrated
+n_lipids_tot=179
 
 rd=`pwd`
 
@@ -16,7 +17,7 @@ do
 mkdir -p perm_particle_${perm} && cd perm_particle_${perm} || exit 8
 
 # for various level of (un)saturation
-for n_unsat in `seq 0 17 $n_lipids_tot` $n_lipids_tot 
+for n_unsat in `seq 0 18 $n_lipids_tot` $n_lipids_tot 
 do
 n_sat=`echo "$n_lipids_tot - $n_unsat" | bc`
 d=`echo "$n_unsat * 50 / $n_lipids_tot ; scale=1" | bc`
