@@ -1,0 +1,19 @@
+; Include forcefield parameters for Martini 3 - final
+; The actual location of these files might be different on your computer!
+#include "/coarse/josef/Martini/martini_3-final/martini_v3.0.4.itp"
+#include "/coarse/josef/Martini/martini_3-final/martini_v3.0_ions.itp"
+#include "/coarse/josef/Martini/martini_3-final/martini_v3.0_phospholipids.itp"
+#include "/coarse/josef/Martini/martini_3-final/martini_v3.0_solvents.itp"
+#include "/coarse/josef/Martini/martini_3-final/martini_v3.0_sterols.itp"
+
+[ system ]
+_SYS_NAME_
+
+[ molecules ]
+; name  number
+DPPC           _N_SAT_
+POPC           _N_UNSAT_
+DPPC           _N_SAT_
+POPC           _N_UNSAT_
+_PERM_             1
+W              18027
