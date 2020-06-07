@@ -46,7 +46,7 @@ pull-coord1-start = yes
 
 integrator               = md
 dt                       = 0.02
-nsteps                   = 50000000  ; 1 us
+nsteps                   = 250000000  ; 5 us
 nstcomm                  = 100
 comm-grps		         = 
 
