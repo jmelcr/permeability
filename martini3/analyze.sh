@@ -48,13 +48,18 @@ dens_file_name="density_solvent.xvg"
 for d in `find -type d -name "*sim1_awh*"`
 do
   dir=$d
-  cd $rootdir
+  cd $rd
 
   if `cd ${dir}`
   then
     cd ${dir}
+    # workaround: now $d, $dir, $wd have the same value 
+    # because the code is stitched from different sources. Huh. 
+    wd=${dir}  
   else
-    "Could not step into the directory "$dir
+    echo "Could not step into the directory "$dir
+    cd $rd
+    continue
   fi
 
    # is the simulation finished?
@@ -90,7 +95,8 @@ do
    #[ ! -s lipidator.out ] && ts -L ${wd} bash -c "${rd}/resis ${traj_file_name} ${rd}/martini.ldx ../../lipidator.ndx > lipidator.out"
 
     # get dG profile from AWH
-    [ ! -s awh_t2e+06.xvg ] && ts gmx awh -skip 1000 -more -kt -fric
+    #[ ! -s awh_t2e+06.xvg ] && ts gmx awh -skip 1000 -more -kt -fric
+    ts gmx awh -skip 1000 -more -kt -fric
    cd $rd
 done
 
