@@ -349,29 +349,19 @@ class Simulation:
         """
         Dirname parser assigning values to 
         simulation conditions (temperature)
-        and compositions (which lipids, concentration of ethanol, what sterols and how much..)
+        and compositions (saturation number d, which lipids, what sterols and how much..)
         as instance attributes
         
-        This method is HIGHLY SPECIFIC to the ethanol project 
+        This method is HIGHLY SPECIFIC to the permeability project 
         and the dirname naming conventions therein
         """
         s = self.dirname # just a short-hand abbreviation for the long self.dirname 
         self.sterol_type     = cropstring(s, l="./", r="sterol")
-        self.sterol_conc  =int(cropstring(s, l="rol/"+self.sterol_type+"sterol", r="p_sims_data"))
-        self.ethanol_conc =int(cropstring(s, "memb_", "pEthanol"))
-        self.tails           = cropstring(s, "_tails_", "_heads_")
-        self.temperature  =int(cropstring(s, "_Temp_", "K"))
-        self.composition_str = cropstring(s, "/0", "_martini")
-        # now the phospholipid composition
-        self.other_phospholipid = cropstring(s, "_heads_", "-PC_Temp")
-        if self.composition_str.startswith("1_"):
-            self.pc_conc = 100
-        elif self.composition_str.startswith("7_"):
-            self.pc_conc = 0
-        else:
-            r_pc    = int(self.composition_str[2])
-            r_other = int(self.composition_str[8])
-            self.pc_conc = round(100.0*r_pc/(r_pc+r_other))
+        self.sterol_conc  =int(cropstring(s, l=self.sterol_type+"sterol", r="p_PC"))
+        self.temperature  = 293  # as in the main mdp file
+        self.particle = cropstring(s, "perm_particle_EOL", "/sat-unsat")
+        self.d = float(cropstring(s, "_d_", "/sim1"))/100.0  # saturation index d
+        self.starting_cond = cropstring(s, "_awh_", "/")
         # and finally, the dirname path was parsed, so ...
         self.dirname_parsed  = True
         
