@@ -118,7 +118,7 @@ class Simulation:
         self.lipidator_fname       = Simulation.default_lipidator_fname
         self.solvent_density_fname = Simulation.default_solvent_density_fname
         self.boxx_fname            = Simulation.default_boxx_fname
-        for fname in [self.top_fname, self.lipidator_fname, self.solvent_density_fname, self.boxx_fname]:
+        for fname in [self.top_fname, ]: # self.lipidator_fname, self.solvent_density_fname, self.boxx_fname]:
             try:
                 for f in locate(fname, self.dirname):
                     if fname in f:
@@ -133,49 +133,74 @@ class Simulation:
                 self.topology = mda.Universe(os.path.join(self.dirname, self.top_fname)) 
             except:
                 raise UserWarning("Error loading topology and trajectory in directory {}".format(self.dirname))
+
+        # calculate permeability
+        self.perm, self.permerr = self.calc_perm()
+            
             
     
-    def calc_permeability(self):
-        """calculate permeability from AWH simulation profiles and friction"""
-        ============ TBD!
+    def calc_perm(self, m=20, const_fric=None):
+        """
+        calculate permeability from AWH simulation deltaG and friction profiles
+        
+        parameter m defines the number of samples from each side of the profile
+        to use for estimation of the zero-level 
+        by taking mean on the left & right (which are obtained independently and have to agree in a converged sim.) 
+        and comparing the values
+        
+        returns tuple with two values (permeability and , its err.estim.)
+        """
+        
+        # locate the awh file (friction file has the same naming convention format, se we will only simply substitute)
+        awh_files = locate("awh_*.xvg", self.dirname)
+        # choose the newest of the files
+        newest_file = max(awh_files, key=os.path.getctime)
+        
+        # assign the AWH data sets to numpy arrays
         awh_data  = np.loadtxt(newest_file, comments=("#", "@"))
-        fric_data = np.loadtxt(newest_file.replace("awh_", "friction_"), comments=("#", "@"))
         x    = awh_data[:,0]
         fep  = awh_data[:,1]
-        fric = fric_data[:,1]
-        # OVERRIDING friction data with a constant number
-        #fric = np.ones(fep.shape)*2900.0
-        # obtain the estimate of deltaG
-        dg1   = np.max(fep-fep[-m:].mean())
-        dg2   = np.max(fep-fep[:m].mean())
-        dgs.append(np.mean([dg1, dg2]))
-        dgstds.append(np.std([dg1, dg2]))
+
+        # prepare friction data - from file (implicit) or constant (optional)
+        if not const_fric:
+            fric_data = np.loadtxt(newest_file.replace("awh_", "friction_"), comments=("#", "@"))
+            fric = fric_data[:,1]
+        else:
+            # OVERRIDING friction data with a constant number
+            fric = np.ones(fep.shape)*const_fric
+            
+        # obtain the estimate of deltaG from left & right
+        dg1 = np.max(fep-fep[-m:].mean())
+        dg2 = np.max(fep-fep[:m].mean())
+        self.dg    = np.mean([dg1, dg2])
+        self.dgstd = np.std([dg1, dg2])
+        
+        # calculate the permeability (through 1/resistance)
         if use_symmetry:
+            # apply symmetry rules to the profile and obtain an estimate of error
             fepsymm  = symmetrize(fep)
             fricsymm = symmetrize(fric)
             xsymm    = x[:fepsymm[0].shape[0]]
-            rxsymm    = np.exp(fepsymm[0]-fepsymm[0][:m].mean())*fricsymm[0]/1000.0    # r(x)
-            #rxstdsymm = ( np.exp(fepsymm[0])*fricsymm[1] + np.exp(fepsymm[1])*fricsymm[0] )/1000.0    # error of r(x) through chain rule
-            # OVERRIDING error estimate of friction here
-            rxstdsymm = ( np.exp(fepsymm[0])*100.0 + np.exp(fepsymm[1])*fricsymm[0] )/1000.0    # error of r(x) through chain rule
+            rxsymm    = np.exp(fepsymm[0]-fepsymm[0][:m].mean())*fricsymm[0]/1000.0    # r(x) = resistance
+            # use value of 100.0 instead of "*fricsymm[1]" to simplify the equation and error estimate?
+            rxstdsymm = ( np.exp(fepsymm[0])*fricsymm[1] + np.exp(fepsymm[1])*fricsymm[0] )/1000.0    # error of r(x) through chain rule
             r         = np.trapz(x=xsymm[m:], y=rxsymm[m:]) *2.0   # *2, because i have only half of the profile after symmetrizing it
             rstd      = np.trapz(x=xsymm[m:], y=rxstdsymm[m:]) *2.0
-            perm      = 100000.0/r   # in nm/us*e-4 resp cm/s*e-3
-            permstd   = perm**2 * rstd /100000.0   # is the same as: perm*rstd/r
-            simulations[newest_dirname] = r
-            means.append(r)
-            stds.append(rstd)
-            perms.append(perm)
-            permstds.append(permstd)
         else:
             # set the zero-level (solvent) to 0 from one resp. other side
             rx1  = np.exp(fep-fep[-m:].mean())*fric/1000.0    # r(x) ...
             rx2  = np.exp(fep-fep[:m].mean()) *fric/1000.0    # resistance in ns/nm resp s/m
             r = np.trapz(x=x[m:-m], y=np.vstack((rx1, rx2))[:,m:-m])
-            simulations[newest_dirname] = r.mean()
-            means.append(r.mean())
-            stds.append(r.std())
-         
+
+        unit_scaling_factor = 100000.0  # provides unit cm/s *e-3 from simulation units (kT and ps)d
+        perm      = unit_scaling_factor/r   # in nm/us*e-4 resp cm/s*e-3
+        try: 
+            permstd = perm**2 * rstd /unit_scaling_factor   # is the same as: perm*rstd/r
+        except:
+            permstd = None
+
+        return (perm, permstd)
+
     
     def read_lipidator(self):
         """get several properties,
@@ -459,8 +484,8 @@ for pltkind in ["line", ]:
             level="PC conc").plot(kind=pltkind, label=pcc)
         plt.legend()
         plt.xticks(range(len(eth_concs)), eth_concs)
-
 ```
+
 
 ## Save it!
 
