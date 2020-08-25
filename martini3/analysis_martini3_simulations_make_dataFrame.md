@@ -99,13 +99,10 @@ class Simulation:
     default_solvent_density_fname = "density_solvent.xvg"
     default_boxx_fname            = "boxx.xvg"
     use_symmetry = True
-    column_labels = ("temperature",
-                    "sterol type", "sterol conc",
-                    "other phosph", "tails", "satur index",
-                    "PC conc", "ethanol conc", 
-                    "APL", "thickness",
-                    "bending", "tilt",
-                    "compress")
+    column_labels = ("satur index",
+                     "sterol conc",
+                     "compress",
+                     "perm", "perm err")
 
     def __init__(self, dirname):
         self.dirname = dirname
@@ -199,8 +196,30 @@ class Simulation:
         except:
             permstd = None
 
+        self.__perm_perr = (perm, permstd)
         return (perm, permstd)
 
+    
+    @property
+    def perm(self):
+        try:
+            return self.__perm_perr[0]
+        except:
+            # shall be raised e.g. in case self.apl is not defined yet
+            self.calc_perm()  # defines the above self."attribute"
+        finally:
+            return self.__perm_perr[0]
+
+    @property
+    def permerr(self):
+        try:
+            return self.__perm_perr[1]
+        except:
+            # shall be raised e.g. in case self.apl is not defined yet
+            self.calc_perm()  # defines the above self."attribute"
+        finally:
+            return self.__perm_perr[1]
+        
     
     def read_lipidator(self):
         """get several properties,
@@ -370,7 +389,10 @@ class Simulation:
     def satur_index(self):
         """
         Assign a saturation index d depending on the used tails
+        
+        NOT USED in this project
         """
+        raise Warning "Invoking function >> satur_index <<, which shall not be used!"
         try:
             self.tails
         except:
@@ -398,17 +420,14 @@ class Simulation:
         The order is given by the Class variable Simulation.column_labels
         """
         try:
-            self.temperature
+            self.d
         except:
             self.parse_dirname()
         finally:    
-            record = (self.temperature, 
-                      self.sterol_type, self.sterol_conc, 
-                      self.other_phospholipid, self.tails, self.satur_index, 
-                      self.pc_conc, self.ethanol_conc,
-                      self.apl, self.thick,
-                      self.bend, self.tilt, 
-                      self.compress)
+            record = (self.d, 
+                      self.sterol_conc, 
+                      self.compress,
+                      self.perm, self.permerr)
 
         return record
 ```
