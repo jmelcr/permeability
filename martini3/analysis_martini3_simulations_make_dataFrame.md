@@ -85,7 +85,7 @@ def cropstring(s, l=None, r=None):
 ```
 
 # Simulation class definition
-This class includes all methods and attributes to obtain results from ethanol-membrane intreraction simulations with Martini within MeMBrane project.
+This class includes all methods and attributes to obtain results from ethanol-membrane intreraction simulations with Martini within **permeability** project with Jacopo Fralicciardi and Bert Poolman.
 
 This is prepared in a way that the readout shall be easily concatenated in a Pandas Dataframe for further analysis including multi-indexing etc...
 
@@ -460,14 +460,14 @@ for f in tpr_files:
 data = pd.DataFrame.from_records(records, columns=Simulation.column_labels)
 
 # create multiindex from columns 1-8
-midata = data.set_index(list(Simulation.column_labels[:8]))
+midata = data.set_index(list(Simulation.column_labels[:2]))
 ```
 
 ```python
 # This is how to slice it (an example)
 idx = pd.IndexSlice
 #          parts of the multi-index ...   , membrane property(ies)
-midata.loc[idx[298, "no", 0, "PE", :, 0.0], :].sort_index(level="PC conc")
+midata.loc[idx[:, 10], :].sort_index(level="satur index")
 ```
 
 ## Test plot and slicing
