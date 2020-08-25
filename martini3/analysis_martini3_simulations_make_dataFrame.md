@@ -19,6 +19,7 @@ import gromacs
 import pandas as pd
 import os, fnmatch
 import matplotlib.pyplot as plt
+import seaborn as sns
 from IPython.display import display
 import MDAnalysis as mda
 %pylab inline
@@ -80,7 +81,7 @@ def cropstring(s, l=None, r=None):
     if isinstance(r, str):
         ir = s.find(r)
     else:
-        ir = -1  #till the end of the original string
+        ir = len(s)+1  #till the end of the original string
     return s[il:ir]
 ```
 
@@ -101,6 +102,8 @@ class Simulation:
     use_symmetry = True
     column_labels = ("satur index",
                      "sterol conc",
+                     "particle",
+                     "starting conf",
                      "compress",
                      "perm", "perm err")
 
@@ -130,13 +133,10 @@ class Simulation:
                 self.topology = mda.Universe(os.path.join(self.dirname, self.top_fname)) 
             except:
                 raise UserWarning("Error loading topology and trajectory in directory {}".format(self.dirname))
-
-        # calculate permeability
-        self.perm, self.permerr = self.calc_perm()
             
             
     
-    def calc_perm(self, m=20, const_fric=None):
+    def calc_perm(self, m=20, use_symmetry=True, const_fric=None):
         """
         calculate permeability from AWH simulation deltaG and friction profiles
         
@@ -151,7 +151,11 @@ class Simulation:
         # locate the awh file (friction file has the same naming convention format, se we will only simply substitute)
         awh_files = locate("awh_*.xvg", self.dirname)
         # choose the newest of the files
-        newest_file = max(awh_files, key=os.path.getctime)
+        try:
+            newest_file = max(awh_files, key=os.path.getctime)
+        except:
+            print("cannot find newest file in dir {} \n setting perm to None values".format(sim.dirname))
+            return (None, None)
         
         # assign the AWH data sets to numpy arrays
         awh_data  = np.loadtxt(newest_file, comments=("#", "@"))
@@ -160,7 +164,7 @@ class Simulation:
 
         # prepare friction data - from file (implicit) or constant (optional)
         if not const_fric:
-            fric_data = np.loadtxt(newest_file.replace("awh_", "friction_"), comments=("#", "@"))
+            fric_data = np.loadtxt(newest_file.replace("/awh_", "/friction_"), comments=("#", "@"))
             fric = fric_data[:,1]
         else:
             # OVERRIDING friction data with a constant number
@@ -380,7 +384,7 @@ class Simulation:
         self.temperature  = 293  # as in the main mdp file
         self.particle = cropstring(s, "perm_particle_EOL", "/sat-unsat")
         self.d = float(cropstring(s, "_d_", "/sim1"))/100.0  # saturation index d
-        self.starting_cond = cropstring(s, "_awh_", "/")
+        self.starting_conf = cropstring(s, "_awh_")
         # and finally, the dirname path was parsed, so ...
         self.dirname_parsed  = True
         
@@ -392,7 +396,7 @@ class Simulation:
         
         NOT USED in this project
         """
-        raise Warning "Invoking function >> satur_index <<, which shall not be used!"
+        raise Warning("Invoking function >> satur_index <<, which shall not be used!")
         try:
             self.tails
         except:
@@ -426,6 +430,8 @@ class Simulation:
         finally:    
             record = (self.d, 
                       self.sterol_conc, 
+                      self.particle,
+                      self.starting_conf,
                       self.compress,
                       self.perm, self.permerr)
 
@@ -450,7 +456,11 @@ tpr_files = find("topol.tpr", os.curdir)
 records = []
 for f in tpr_files:
     sim = Simulation(os.path.dirname(f))
-    records.append(sim.as_record)
+    if (not "prep" in sim.dirname) and ("titration" in sim.dirname) :
+        try:
+            records.append(sim.as_record)
+        except:
+            print("Troubles loading simulation in dir {} \n Skipping it.".format(sim.dirname))
 ```
 
 # Table of simulations
@@ -459,40 +469,24 @@ for f in tpr_files:
 # create large DataFrame data set from records
 data = pd.DataFrame.from_records(records, columns=Simulation.column_labels)
 
-# create multiindex from columns 1-8
-midata = data.set_index(list(Simulation.column_labels[:2]))
+data.head()
 ```
 
 ```python
+# create multiindex from columns 1-8
+midata = data.set_index(list(Simulation.column_labels[:4]))
+
 # This is how to slice it (an example)
 idx = pd.IndexSlice
 #          parts of the multi-index ...   , membrane property(ies)
-midata.loc[idx[:, 10], :].sort_index(level="satur index")
+midata.loc[idx[:, 15, "T"], :].sort_index(level="satur index").head()
 ```
 
 ## Test plot and slicing
 Here I perform a simple test of plotting and slicing and manipulating of the dataset
 
 ```python
-pc_concs = midata.index.levels[6]
-eth_concs = midata.index.levels[7]
-
-memb_prop = 'tilt'
-sterol_type = "no"
-sterol_conc = 0
-for pltkind in ["kde", ]:
-    midata.loc[idx[298, sterol_type, sterol_conc, "PE", :, 0.0], memb_prop].sort_index(
-        level="PC conc").plot(kind=pltkind)
-    #plt.xlabel("area per lipid [nm]")
-    plt.show()
-    
-
-for pltkind in ["line", ]:
-    for pcc in pc_concs:
-        midata.loc[idx[298, sterol_type, sterol_conc, "PE", :, 0.0, pcc, :], memb_prop].sort_index(
-            level="PC conc").plot(kind=pltkind, label=pcc)
-        plt.legend()
-        plt.xticks(range(len(eth_concs)), eth_concs)
+sns.pairplot(data.loc[:, ['particle', 'perm', 'satur index', 'sterol conc']], hue="particle")
 ```
 
 
@@ -500,7 +494,7 @@ for pltkind in ["line", ]:
 
 ```python
 # CSV is not much larger than other data formats and can be read-in by most software suites including e.g. Excel
-midata.to_csv(path_or_buf="dataFrame_all_sims.csv")
+data.to_csv(path_or_buf="dataFrame_all_sims.csv")
 ```
 
 # Next ...
