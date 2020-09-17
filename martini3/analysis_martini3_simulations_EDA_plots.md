@@ -224,7 +224,7 @@ le.inverse_transform(df.particle)
 df.info()
 ```
 
-### Preprocessing finished
+## Preprocessing finished
 
 Now, I have a data set, which is clean,
 contains only numerical values,
@@ -235,6 +235,8 @@ Let's save it.
 ```python
 df.to_csv("dataFrame_all_sims_processed.csv")
 ```
+
+# Exploratory plots and additional analysis + processing
 
 ```python
 sns.pairplot(df.loc[:, 'compress':'perm'])  #, hue='sterol conc')
@@ -367,6 +369,11 @@ Here summarized as a few bullet points:
       - experiments for Fromic acid have some additional chemistry happening 
         (effect of size? - see particles [0,1]→[R,S]
 
+
+```python
+# Let's save the final dataframe including transformation
+dft.to_csv("dataFrame_all_sims_processed_log-transf.csv")
+```
 
 ```python
 
