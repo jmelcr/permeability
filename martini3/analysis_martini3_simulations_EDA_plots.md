@@ -237,5 +237,137 @@ df.to_csv("dataFrame_all_sims_processed.csv")
 ```
 
 ```python
-sns.pairplot(df, hue='sterol conc')
+sns.pairplot(df.loc[:, 'compress':'perm'])  #, hue='sterol conc')
+```
+
+## Skew-ness 
+Some properties - especially  permeability and compressibility appear very skewed.
+
+That is not surprising, as we know from the measurements, that there are 
+order of magnitude differences in the permeability values depending on the 
+saturation index and other model parameters. 
+
+The simple method to make the distributions less skewed 
+-- and more meaningful revealing the improtant order-of-magnitude changes --
+is to use a _log_ transformation.
+
+It looks that both _compress_ as well as the known _perme_ will benefit from the transform let's see...
+
+Here I calculate the skewness, just for the record:
+
+```python
+df.skew()
+```
+
+```python
+# Let's look at what happens to one of these features, when we apply np.log visually.
+
+# which columns appear skewed and will be investigated:
+skew_cols = ['perm', 'compress']
+
+# Choose the transform function for the skewed data
+trans_func = np.log10
+
+# Choose a field
+for field in skew_cols:
+
+    # Create two "subplots" and a "figure" using matplotlib
+    fig, (ax_before, ax_after) = plt.subplots(1, 2, figsize=(10, 5))
+
+    # Create a histogram on the "ax_before" subplot
+    df[field].hist(ax=ax_before)
+
+    # Apply a log transformation (numpy syntax) to this column
+    # does NOT happen in-place
+    df[field].apply(trans_func).hist(ax=ax_after)
+
+    # Formatting of titles etc. for each subplot
+    ax_before.set(title='before transfrom', ylabel='frequency', xlabel='value')
+    ax_after.set(title='after transform', ylabel='frequency', xlabel='value')
+    fig.suptitle('Field "{}"'.format(field));
+    
+    # and print the skew values before/after the same transform
+    print("Skew of {} before transform: {}".format(field, df[field].skew()))
+    print("Skew of {} after  transform: {}".format(field, df[field].apply(trans_func).skew()))
+```
+
+Skeweness of both properties turns to negative values after transformation.
+
+The value for _compress_ is closer to zero, while the value for _perm_ is more skewed than before -
+now only negatively. 
+
+Let's see how the pairplot looks after the transform:
+
+```python
+sns.pairplot(df.loc[:, ['compress', 'perm']].apply(trans_func))
+```
+
+```python
+# Perform the skew transformation on a copy of the dataframe:
+dft = df.copy()
+
+for col in skew_cols:  
+    dft[col] = df[col].apply(trans_func)
+    
+dft.rename(columns={ col: "log10_"+col for col in skew_cols}, inplace=True)
+```
+
+```python
+dft.info()
+```
+
+## Pair-plot for all particles
+
+Particles are color-coded in the following plot.
+- R: 0
+- S: 1
+- T: 2
+
+👇
+
+```python
+hue_col = 'particle'
+sns.pairplot(dft.loc[:, ['satur index', hue_col, 'sterol conc', 'log10_perm']]  , hue=hue_col)
+```
+
+## Pair-plot for particle T 
+the tiny-est particle "T" 
+yields the most robust resutls 
+w.r.t to determinig permeability as 
+its size allows for its passing through the membrane
+even in the _gel phase_. 
+
+Here I plot the pair-correlations of the properties from various simulations
+only for the **T** particle. 
+
+👇
+
+```python
+# pair-plot the result:
+hue_col = 'sterol conc'
+sns.pairplot(dft[dft.particle == 2].loc[:, ['satur index', hue_col, 'log10_compress', 'log10_perm']]  , hue=hue_col)
+```
+
+## Quick summary of the results - mostly for particle T
+The above plots contain valuable information on the effect of sterols and saturation on permeability.
+Here summarized as a few bullet points:
+
+- Sterols prevent the membrane from being at the _gel phase_
+    - this increases the permeability
+- 10% cholesterol can be at a _gel_ phase and has according properties (low permeability)
+    - compared to no-cholesterol-DPPC-only, 
+      adding just 10% chol. increases permeability mildly (if phase is not affected)
+- Sterols gradually decrease permeability from _fluid_ to _LOrdered_
+    - this effect is within one order of magnitude
+- _gel_ -vs- _fluid_ yield ~2 order of magnitude difference in permeability
+- Permeability of a Mixtrue of _fluid_ lipids with 45% sterols 
+  has _almost_ one order of magnitude difference from
+  Perme. of a mix of DPPC+45% chol.
+      - this is in agreement with experimental measurements for water
+      - experiments for Fromic acid have some additional chemistry happening 
+        (effect of size? - see particles [0,1]→[R,S]
+
+
+```python
+
 ```
