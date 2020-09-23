@@ -18,8 +18,8 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from cycler import cycler
-from sklearn.decomposition import PCA
+#from cycler import cycler
+#from sklearn.decomposition import PCA
 from sklearn import preprocessing
 
 #from IPython.display import display
@@ -79,6 +79,8 @@ midata.head()
 print(midata.index.names)
 ```
 
+## Missing values
+
 Now, 
 there are several missing values in Compressibility column.
 
@@ -137,9 +139,8 @@ In case this becomes a problem, I can use _dropna()_ method to skip the values.
 description:
 
 ```python
-midata.describe()
-# here selecting only particles "S" and grouping by "sterol concentration"
-midata.loc[midata.particle=='S'].groupby(by='sterol conc').describe().T
+# here selecting only particles "T" and grouping by "sterol concentration"
+midata.loc[midata.particle=='T'].groupby(by='sterol conc').describe().T
 ```
 
 ```python
@@ -155,6 +156,7 @@ Some columns have ordinal values -
 e.g. particle type T - S - R
 can be mapped onto 2 - 3 - 4
 
+## turn initial conditions into categorical one-hot enc values
 Starting conditions are categorical and
 can be assigned using one-hot encoding.
 
@@ -167,7 +169,7 @@ one_hot_encode_cols = one_hot_encode_cols.index.tolist()  # list of categorical 
 # I wan to encode particles as ordinal values, so let's skip it for now...
 one_hot_encode_cols.remove('particle')
 
-midata[one_hot_encode_cols].head().T
+midata[one_hot_encode_cols].head(10).T
 
 ```
 
@@ -180,6 +182,8 @@ df.describe().T
 ```
 
 Dataframe _df_ now contains one-hot-encoded values of initial condition. Good!
+
+## Optional: R-S-T particles into ordinal values ➡️ now skipped!
 
 Let's encode the particles now:
 
@@ -238,9 +242,82 @@ df.to_csv("dataFrame_all_sims_processed.csv")
 
 # Exploratory plots and additional analysis + processing
 
+This is how the variables perm and compress look in a pair plot (simple visual exploration)
+
 ```python
 sns.pairplot(df.loc[:, 'compress':'perm'])  #, hue='sterol conc')
 ```
+
+## Normalization of permeability values
+Permeability from simulations does not have a great sense
+by itself in the actual values.
+
+In the paper, we use relative values normalized to the permeability at
+DOPC. 
+That is very similar to the value of POPC, so ...
+
+→ Here, I will use POPC as the reference value for such "scaling". 
+
+```python
+# creating a multiindex version of the dataframe
+dfmi = df.set_index(keys=df.columns[:3].to_list())
+dfmi.head()
+```
+
+```python
+# group by particle and normalize against permeability saturation index 0.5 == 1
+permnorm = dfmi.copy()
+norm_label = 'perm'
+for particle_ind in ['R', 'S', 'T']:   # use the following if RST converted to ordinal ints: [0, 1, 2]:
+    # determine the denominator for scaling:
+    norm_denom = float(dfmi[dfmi['starting conf_fluid']==1].loc[pd.IndexSlice[0.5, 0.0, particle_ind], [norm_label]].values)
+    print("Norm factor for particle type {} is {}".format(particle_ind, norm_denom))
+
+    # do the transform for the property
+    permnorm.loc[pd.IndexSlice[:,:,particle_ind], (norm_label)] = dfmi.loc[pd.IndexSlice[:,:,particle_ind], 
+                                                                           (norm_label)].apply(lambda x: x / norm_denom)
+    # ... as well as for its error (if exists!)
+    try: 
+        norm_label_err = norm_label+" err"
+        permnorm.loc[pd.IndexSlice[:,:,particle_ind], (norm_label_err)] = dfmi.loc[pd.IndexSlice[:,:,particle_ind], 
+                                                                                      (norm_label_err)].apply(lambda x: x / norm_denom)
+    except:
+        print("Couldn't perform the transform on the adjacent error to the property {}".format(norm_label))
+```
+
+Now the comparison between particles is hampered due to the 
+additional scaling of their values.
+However, that is not that problematic, 
+as the differences for liquid-fluid membranes are not large
+and they (likely) arise mostly from the slightly different solubility
+of the different beads (which is not precisely the same).
+That is why there is lower permeability for smaller particles (against expectations). 
+
+This can also be understood as a benefit - 
+now the "solubility" is _"scaled away"_ from the trends
+and only the size of the permeating particle drives the major changes. 
+
+👉 i.e. we can now simply compare the effects of size 
+as the initial permeability (mostly solubility) 
+is basically neglected after this normalization. 
+
+```python
+# scaling of the permeability values has happened:
+permnorm.loc[0.5, 0]
+```
+
+Assign the normalized permeabilities back to the *df* Dataframe 
+so that the rest of this notebook works without changes:
+
+```python
+# assign the normalized permeabilities back to the df Dataframe 
+# so that the rest of this notebook works without changes
+df = permnorm.reset_index()
+```
+
+🚨 Now, the Dataframe **df** contains permeabilities 
+**normalized** to the value through POPC separately for each particle type. 
+(see discussion above why this is 👌)
 
 ## Skew-ness 
 Some properties - especially  permeability and compressibility appear very skewed.
@@ -265,7 +342,7 @@ df.skew()
 # Let's look at what happens to one of these features, when we apply np.log visually.
 
 # which columns appear skewed and will be investigated:
-skew_cols = ['perm', 'compress']
+skew_cols = ['perm', 'perm err', 'compress']
 
 # Choose the transform function for the skewed data
 trans_func = np.log10
@@ -301,8 +378,11 @@ now only negatively.
 Let's see how the pairplot looks after the transform:
 
 ```python
-sns.pairplot(df.loc[:, ['compress', 'perm']].apply(trans_func))
+sns.pairplot(df.loc[:, ['compress', 'perm', 'perm err']].apply(trans_func))
 ```
+
+### Perform the log10 transform
+.. and save it into a separate dataframe *dft* :
 
 ```python
 # Perform the skew transformation on a copy of the dataframe:
@@ -321,6 +401,9 @@ dft.info()
 ## Pair-plot for all particles
 
 Particles are color-coded in the following plot.
+
+If Ordinal encoding (via LabelEncoder, see above) is used for their names,
+this is the code:
 - R: 0
 - S: 1
 - T: 2
@@ -347,7 +430,7 @@ only for the **T** particle.
 ```python
 # pair-plot the result:
 hue_col = 'sterol conc'
-sns.pairplot(dft[dft.particle == 2].loc[:, ['satur index', hue_col, 'log10_compress', 'log10_perm']]  , hue=hue_col)
+sns.pairplot(dft[dft.particle == 'T'].loc[:, ['satur index', hue_col, 'log10_compress', 'log10_perm']]  , hue=hue_col)
 ```
 
 ## Quick summary of the results - mostly for particle T
@@ -372,7 +455,64 @@ Here summarized as a few bullet points:
 
 ```python
 # Let's save the final dataframe including transformation
-dft.to_csv("dataFrame_all_sims_processed_log-transf.csv")
+dft.to_csv("dataFrame_all_sims_processed_log-transf_norm.csv")
+```
+
+## Create a dataframe with multiindex for simple cutting and plotting
+
+as the columns in the dataframe are
+
+```python
+dft.columns
+```
+
+I can simply use the following to make an index from the first columns:
+
+```python
+dftmi = dft.set_index(keys=dft.columns[:3].to_list())
+dftmi.head()
+```
+
+```python
+dftmi.loc[0.0, :, 'T'].sort_index()
+```
+
+## Plotting dependence of Permeability ⨉ Sterol conc
+
+- for each particle type (color-hue-coded)
+- distinguishing different phases POPC/DPPC (top/bottom)
+- omitting clearly non-converged results (starting from the incorrect phase and did not make it into the correct)
+
+
+```python
+for satind, init_conf_gel in zip([0.0, 0.5], [True, False]):
+    sns.lineplot(x='sterol conc', y='log10_perm', data=dft.query(
+        '(`starting conf_gel` == {} or `starting conf_LOrdered` == 1) and `satur index` == {}'.format(init_conf_gel, satind)), 
+                 hue='particle').set_title(r'$P_{MD}$ | top: $L_d$ - bottom: $L_o$ resp. $L_\beta$')
+    
+plt.savefig('plot_perm-log10_sterol-conc_allParticles.png', dpi=150)
+```
+
+## Plotting dependence of Permeability ⨉ Satur index
+
+- for each particle type
+
+All starting conditions (and their phases) are plotted in the graph.
+They can be easily distinguished by their clear separation.
+
+Obviously, there are convergence problems with the largest Regular particle R (resp. 0).
+In the fluid phase Ld, however, all particles 
+reveal highly similar behaviour.
+
+```python
+for sterolconc in [0, 15, 30, 45]:
+    for init_conf_gel in [False, True]:
+        sns.lineplot(x='satur index', y='log10_perm', data=dft.query(
+            '(`starting conf_gel` == {} or `starting conf_LOrdered` == 1) and `sterol conc` == {}'.
+            format(init_conf_gel, sterolconc)), 
+            hue='particle').set_title("Sterol concentration: {}%".format(sterolconc))
+    plt.savefig('plot_perm-log10_satur-index_allParticles_sterol-conc-{}p.png'.format(sterolconc), dpi=150)
+    plt.show()    
 ```
 
 ```python
