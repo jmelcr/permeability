@@ -566,17 +566,39 @@ The plot can be futher improved
 by using a simulation snapshot as a background. 
 
 ```python
+def prep_to_plot(x, y, shift_to_zero=True):
+    """Function symmetrizes and shifts the profiles for plotting."""
+    ysymm_arr = symmetrize(y)
+    ys    = ysymm_arr[:][0]
+    yserr = ysymm_arr[:][1]
+    x_half = -x[:len(ys)]
+    if shift_to_zero:
+        delta = ys[:50].mean()
+        ys -= delta
+    return (x_half, ys, yserr)
+```
+
+```python
 for sim_list, xxpc in zip([po_sims, dp_sims], ["POPC", "DPPC"]):
+    # DOPC - reference - at the background
+    s = dopc_sim
+    (x_half, awhsym, awhsym_err) = prep_to_plot(s.awh_x, s.awh)
+    plt.plot(x_half, awhsym, color='black')
+    plt.fill_between(x=x_half, 
+                     y1=awhsym+awhsym_err,
+                     y2=awhsym-awhsym_err,
+                     label="DOPC, {}% {}sterol".format(s.sterol_conc, s.sterol_type),
+                     color='black', alpha=0.7)
+    
     for s in sim_list:
         if (xxpc == 'POPC' and s.starting_conf != 'gel') or (xxpc == 'DPPC' and s.starting_conf != 'fluid'):
-            awhsym = symmetrize(s.awh)[:][0]
-            awhsym_err = symmetrize(s.awh)[:][1]
-            x_half = -s.awh_x[:len(awhsym)]
+            (x_half, awhsym, awhsym_err) = prep_to_plot(s.awh_x, s.awh)
             plt.plot(x_half, awhsym)
             plt.fill_between(x=x_half, 
                              y1=awhsym+awhsym_err,
                              y2=awhsym-awhsym_err,
                              label="{}, {}% {}sterol".format(xxpc, s.sterol_conc, s.sterol_type))
+
     plt.legend()
     plt.ylabel("Free energy / kT")
     plt.xlabel("distance / nm")
@@ -600,13 +622,12 @@ However, at the current status it makes the necessary points.
 for sim_list, xxpc in zip([po_sims, dp_sims], ["POPC", "DPPC"]):
     for s in sim_list:
         if (xxpc == 'POPC' and s.starting_conf != 'gel') or (xxpc == 'DPPC' and s.starting_conf != 'fluid'):
-            awhsym = symmetrize(s.fric)[:][0]
-            awhsym_err = symmetrize(s.fric)[:][1]
-            x_half = -s.awh_x[:len(awhsym)]
-            plt.plot(x_half, awhsym)
+            (x_half, fricsym, fricsym_err) = prep_to_plot(s.awh_x, s.fric, shift_to_zero=False)
+            x_half = -s.awh_x[:len(fricsym)]
+            plt.plot(x_half, fricsym)
             plt.fill_between(x=x_half, 
-                             y1=awhsym+awhsym_err,
-                             y2=awhsym-awhsym_err,
+                             y1=fricsym+fricsym_err,
+                             y2=fricsym-fricsym_err,
                              label="{}, {}% {}sterol".format(xxpc, s.sterol_conc, s.sterol_type),
                              alpha=0.9)
     plt.legend()
@@ -614,6 +635,10 @@ for sim_list, xxpc in zip([po_sims, dp_sims], ["POPC", "DPPC"]):
     plt.xlabel("distance / nm")
     plt.savefig("friction_profiles_{}_sterol-concs.png".format(xxpc), dpi=150, bbox_inces='tight')
     plt.show()
+```
+
+```python
+
 ```
 
 ```python
