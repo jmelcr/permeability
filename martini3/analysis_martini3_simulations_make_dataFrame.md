@@ -15,13 +15,14 @@ jupyter:
 
 ```python
 import numpy as np
-import gromacs
+#import gromacs
 import pandas as pd
 import os, fnmatch
 import matplotlib.pyplot as plt
 import seaborn as sns
 from IPython.display import display
 import MDAnalysis as mda
+import pickle
 %pylab inline
 ```
 
@@ -169,6 +170,11 @@ class Simulation:
         else:
             # OVERRIDING friction data with a constant number
             fric = np.ones(fep.shape)*const_fric
+            
+        # store the AWH, x-coord & friction profile as attributes of this class Simulation
+        self.awh_x = x
+        self.awh   = fep
+        self.fric  = fric
             
         # obtain the estimate of deltaG from left & right
         dg1 = np.max(fep-fep[-m:].mean())
@@ -454,8 +460,10 @@ tpr_files = find("topol.tpr", os.curdir)
 
 ```python
 records = []
+sims    = []
 for f in tpr_files:
     sim = Simulation(os.path.dirname(f))
+    sims.append(sim)
     if (not "prep" in sim.dirname) and ("titration" in sim.dirname) :
         try:
             records.append(sim.as_record)
@@ -493,10 +501,121 @@ sns.pairplot(data.loc[:, ['particle', 'perm', 'satur index', 'sterol conc']], hu
 ## Save it!
 
 ```python
+# Save the dataframe with the analyzed trajectories
 # CSV is not much larger than other data formats and can be read-in by most software suites including e.g. Excel
 data.to_csv(path_or_buf="dataFrame_all_sims.csv")
+
+# Save the list of simulation objects using pickle
+with open("objects_all_sims.pickle", "wb") as f: pickle.Pickler(f).dump(sims)
 ```
 
-# Next ...
-plotting and working with the dataset will be done in a separate Jupyter notebook, 
+# Dataframe analysis separately
+plotting and working with the Pandas Dataframe dataset will be done in a separate Jupyter notebook, 
 so that this one is clean and finishes with just the creation of the dataset.
+
+# AWH profiles plotting
+As working with the pickled objects also requires defining the Simulation class,
+I will make the AWH-profile plots here in this notebook. 
+
+## PO– & DP– plots
+In this plot, I want to show the profiles of 
+simulations with 0,15,30,45% cholesterol
+. + DOPC as a reference profile
+
+Here, I find and select the corresponding simulations:
+
+```python
+po_sims = []
+dp_sims = []
+for s in sims:
+    # using only Tiny particle as permeant
+    if "EOLT" in s.dirname:
+        print(s.dirname)
+        try:
+            s.parse_dirname()
+            print(s.d, s.sterol_conc, s.particle)
+        except:
+            pass
+        if s.d == 0.5:
+            po_sims.append(s)
+            print(" ➡ added this one to the 💧 PO-list\n")
+        if s.d == 0.0:
+            dp_sims.append(s)
+            print(" ➡ added this one to the 🧊 DP-list\n")
+    if "DOPC" in s.dirname:
+        print("➡️ Found DOPC simulation in dir {}".format(s.dirname))
+        dopc_sim = s
+        
+```
+
+Now, sort the lists after sterol concentrations:
+
+```python
+for sim_list in [po_sims, dp_sims]:
+    sim_list.sort(key=lambda s: s.sterol_conc)
+```
+
+### Free energy profiles
+
+in the code below,
+I plot the symmetrized AWH-free energy profiles.
+The differences from symmetrization 
+give rise to the error estimates included in the plot. 
+
+The plot can be futher improved 
+by using a simulation snapshot as a background. 
+
+```python
+for sim_list, xxpc in zip([po_sims, dp_sims], ["POPC", "DPPC"]):
+    for s in sim_list:
+        if (xxpc == 'POPC' and s.starting_conf != 'gel') or (xxpc == 'DPPC' and s.starting_conf != 'fluid'):
+            awhsym = symmetrize(s.awh)[:][0]
+            awhsym_err = symmetrize(s.awh)[:][1]
+            x_half = -s.awh_x[:len(awhsym)]
+            plt.plot(x_half, awhsym)
+            plt.fill_between(x=x_half, 
+                             y1=awhsym+awhsym_err,
+                             y2=awhsym-awhsym_err,
+                             label="{}, {}% {}sterol".format(xxpc, s.sterol_conc, s.sterol_type))
+    plt.legend()
+    plt.ylabel("Free energy / kT")
+    plt.xlabel("distance / nm")
+    plt.savefig("awh_dG_profiles_{}_sterol-concs.png".format(xxpc), dpi=150, bbox_inces='tight')
+    plt.show()
+```
+
+### Friction profiles
+
+in the code below,
+I plot the symmetrized friction profiles.
+The differences from symmetrization 
+give rise to the error estimates included in the plot. 
+
+These plots would benefit from further processing,
+namely smoothening of the noise. 
+
+However, at the current status it makes the necessary points. 
+
+```python
+for sim_list, xxpc in zip([po_sims, dp_sims], ["POPC", "DPPC"]):
+    for s in sim_list:
+        if (xxpc == 'POPC' and s.starting_conf != 'gel') or (xxpc == 'DPPC' and s.starting_conf != 'fluid'):
+            awhsym = symmetrize(s.fric)[:][0]
+            awhsym_err = symmetrize(s.fric)[:][1]
+            x_half = -s.awh_x[:len(awhsym)]
+            plt.plot(x_half, awhsym)
+            plt.fill_between(x=x_half, 
+                             y1=awhsym+awhsym_err,
+                             y2=awhsym-awhsym_err,
+                             label="{}, {}% {}sterol".format(xxpc, s.sterol_conc, s.sterol_type),
+                             alpha=0.9)
+    plt.legend()
+    plt.ylabel("friction / ps nm$^{-2}$ (kT)$^{-1}$")
+    plt.xlabel("distance / nm")
+    plt.savefig("friction_profiles_{}_sterol-concs.png".format(xxpc), dpi=150, bbox_inces='tight')
+    plt.show()
+```
+
+```python
+
+```
