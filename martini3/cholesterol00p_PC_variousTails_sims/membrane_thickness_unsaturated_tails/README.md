@@ -1,4 +1,4 @@
-Here I test the permeability of the tiny T particle 
+Here I test the permeability of the small "S" particle
 through membranes of varying thicknesses 
 using  Martini 3. 
 
