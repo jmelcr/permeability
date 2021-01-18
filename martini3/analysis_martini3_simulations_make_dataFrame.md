@@ -644,5 +644,26 @@ for sim_list, xxpc in zip([po_sims, dp_sims], ["POPC", "DPPC"]):
 ```
 
 ```python
+for sim_list, xxpc in zip([po_sims, dp_sims], ["POPC", "DPPC"]):
+    for s in sim_list:
+        if (xxpc == 'POPC' and s.starting_conf != 'gel') or (xxpc == 'DPPC' and s.starting_conf != 'fluid'):
+            (x_half, fricsym, fricsym_err) = prep_to_plot(s.awh_x, s.fric, shift_to_zero=False)
+            x_half = -s.awh_x[:len(fricsym)]
+            plt.plot(x_half, fricsym)
+            plt.fill_between(x=x_half, 
+                             y1=fricsym+fricsym_err,
+                             y2=fricsym-fricsym_err,
+                             label="{}, {}% {}sterol".format(xxpc, s.sterol_conc, s.sterol_type),
+                             alpha=0.9)
+    plt.legend()
+    plt.yscale("log")
+    plt.ylim([9e2, 5e5])
+    plt.ylabel("friction / ps nm$^{-2}$ (kT)$^{-1}$")
+    plt.xlabel("distance / nm")
+    plt.savefig("friction_profiles_{}_sterol-concs-EOLS-log.png".format(xxpc), dpi=150, bbox_inces='tight')
+    plt.show()
+```
+
+```python
 
 ```
