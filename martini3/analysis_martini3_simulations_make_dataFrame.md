@@ -606,6 +606,7 @@ for sim_list, xxpc in zip([po_sims, dp_sims], ["POPC", "DPPC"]):
                 print("troubles plotting simulation in {}".format(s.dirname))
 
     plt.legend()
+    plt.ylim([-1, 11])
     plt.ylabel("Free energy / kT")
     plt.xlabel("distance / nm")
     plt.savefig("awh_dG_profiles_{}_sterol-concs-EOLS.png".format(xxpc), dpi=150, bbox_inces='tight')
