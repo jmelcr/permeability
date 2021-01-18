@@ -487,7 +487,7 @@ midata = data.set_index(list(Simulation.column_labels[:4]))
 # This is how to slice it (an example)
 idx = pd.IndexSlice
 #          parts of the multi-index ...   , membrane property(ies)
-midata.loc[idx[:, 15, "T"], :].sort_index(level="satur index").head()
+midata.loc[idx[:, 0, "S"], :].sort_index(level="satur index").head()
 ```
 
 ## Test plot and slicing
@@ -529,7 +529,7 @@ po_sims = []
 dp_sims = []
 for s in sims:
     # using only Tiny particle as permeant
-    if "EOLT" in s.dirname:
+    if "EOLS" in s.dirname and not "(1)" in s.dirname:
         print(s.dirname)
         try:
             s.parse_dirname()
@@ -582,27 +582,33 @@ def prep_to_plot(x, y, shift_to_zero=True):
 for sim_list, xxpc in zip([po_sims, dp_sims], ["POPC", "DPPC"]):
     # DOPC - reference - at the background
     s = dopc_sim
-    (x_half, awhsym, awhsym_err) = prep_to_plot(s.awh_x, s.awh)
-    plt.plot(x_half, awhsym, color='black')
-    plt.fill_between(x=x_half, 
-                     y1=awhsym+awhsym_err,
-                     y2=awhsym-awhsym_err,
-                     label="DOPC, {}% {}sterol".format(s.sterol_conc, s.sterol_type),
-                     color='black', alpha=0.7)
+    try:
+        (x_half, awhsym, awhsym_err) = prep_to_plot(s.awh_x, s.awh)
+        plt.plot(x_half, awhsym, color='black')
+        plt.fill_between(x=x_half, 
+                         y1=awhsym+awhsym_err,
+                         y2=awhsym-awhsym_err,
+                         label="DOPC, {}% {}sterol".format(s.sterol_conc, s.sterol_type),
+                         color='black', alpha=0.7)
+    except:
+        print("troubles with simulation in {}".format(s.dirname))
     
     for s in sim_list:
         if (xxpc == 'POPC' and s.starting_conf != 'gel') or (xxpc == 'DPPC' and s.starting_conf != 'fluid'):
-            (x_half, awhsym, awhsym_err) = prep_to_plot(s.awh_x, s.awh)
-            plt.plot(x_half, awhsym)
-            plt.fill_between(x=x_half, 
-                             y1=awhsym+awhsym_err,
-                             y2=awhsym-awhsym_err,
-                             label="{}, {}% {}sterol".format(xxpc, s.sterol_conc, s.sterol_type))
+            try:
+                    (x_half, awhsym, awhsym_err) = prep_to_plot(s.awh_x, s.awh)
+                    plt.plot(x_half, awhsym)
+                    plt.fill_between(x=x_half, 
+                                     y1=awhsym+awhsym_err,
+                                     y2=awhsym-awhsym_err,
+                                     label="{}, {}% {}sterol".format(xxpc, s.sterol_conc, s.sterol_type))
+            except:
+                print("troubles plotting simulation in {}".format(s.dirname))
 
     plt.legend()
     plt.ylabel("Free energy / kT")
     plt.xlabel("distance / nm")
-    plt.savefig("awh_dG_profiles_{}_sterol-concs.png".format(xxpc), dpi=150, bbox_inces='tight')
+    plt.savefig("awh_dG_profiles_{}_sterol-concs-EOLS.png".format(xxpc), dpi=150, bbox_inces='tight')
     plt.show()
 ```
 
@@ -633,12 +639,8 @@ for sim_list, xxpc in zip([po_sims, dp_sims], ["POPC", "DPPC"]):
     plt.legend()
     plt.ylabel("friction / ps nm$^{-2}$ (kT)$^{-1}$")
     plt.xlabel("distance / nm")
-    plt.savefig("friction_profiles_{}_sterol-concs.png".format(xxpc), dpi=150, bbox_inces='tight')
+    plt.savefig("friction_profiles_{}_sterol-concs-EOLS.png".format(xxpc), dpi=150, bbox_inces='tight')
     plt.show()
-```
-
-```python
-
 ```
 
 ```python
