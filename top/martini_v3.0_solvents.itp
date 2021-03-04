@@ -361,6 +361,146 @@
 ;id 	type 	resnr 	residu 	atom 	cgnr 	charge
  1 	SP1 	1 	EOL 	EOL	1 	0
 
+
+;;;;;; Small SP1 particle for permeability celculations  (Josef's)
+;;;; another duplicate to have the molecule called identical to its type
+
+[ moleculetype ]
+; molname  	nrexcl
+  SP1 	    	1
+
+[ atoms ]
+;id 	type 	resnr 	residu 	atom 	cgnr 	charge
+ 1 	SP1 	1 	SP1 	SP1	1 	0
+
+
+
+;;;;;; Small SUPER POLAR P6 PARTICLE  (Josef's)
+;;;;;; for polarity testing 
+
+[ moleculetype ]
+; molname  	nrexcl
+  POLS	    	1
+
+[ atoms ]
+;id 	type 	resnr 	residu 	atom 	cgnr 	charge 	mass
+ 1 	SP6 	1 	POL 	POL	1 	0       72
+
+
+;;;;;; Small POLAR P3 PARTICLE  (Josef's)
+;;;;;; for polarity testing 
+
+[ moleculetype ]
+; molname  	nrexcl
+  SP3    	1
+
+[ atoms ]
+;id 	type 	resnr 	residu 	atom 	cgnr 	charge 	mass
+ 1 	SP3 	1 	SP3 	SP3	1 	0       72
+
+
+
+;;;;;; Small AMPHI N5 PARTICLE  (Josef's)
+;;;;;; for polarity testing 
+
+[ moleculetype ]
+; molname  	nrexcl
+  SN5	    	1
+
+[ atoms ]
+;id 	type 	resnr 	residu 	atom 	cgnr 	charge 	mass
+ 1 	SN5 	1 	SN5 	SN5	1 	0       72
+
+
+
+;;;;;; Small AMPHI N3 PARTICLE  (Josef's)
+;;;;;; for polarity testing 
+
+[ moleculetype ]
+; molname  	nrexcl
+  AMPS	    	1
+
+[ atoms ]
+;id 	type 	resnr 	residu 	atom 	cgnr 	charge 	mass
+ 1 	SN3 	1 	AMP 	AMP	1 	0       72
+
+
+;;;;;; Small AMPHI N2 PARTICLE  (Josef's)
+;;;;;; for polarity testing 
+
+[ moleculetype ]
+; molname  	nrexcl
+  SN2	    	1
+
+[ atoms ]
+;id 	type 	resnr 	residu 	atom 	cgnr 	charge 	mass
+ 1 	SN2 	1 	SN2	SN2	1 	0       72
+
+
+
+;;;;;; Regul AMPHI N1 PARTICLE  (Josef's)
+;;;;;; for polarity testing 
+
+[ moleculetype ]
+; molname  	nrexcl
+   N1	    	1
+
+[ atoms ]
+;id 	type 	resnr 	residu 	atom 	cgnr 	charge 	mass
+ 1 	 N1 	1 	 N1	 N1	1 	0       72
+
+
+;;;;;; Regul AMPHI N5 PARTICLE  (Josef's)
+;;;;;; for polarity testing 
+
+[ moleculetype ]
+; molname  	nrexcl
+   N5	    	1
+
+[ atoms ]
+;id 	type 	resnr 	residu 	atom 	cgnr 	charge 	mass
+ 1 	 N5 	1 	 N5	 N5	1 	0       72
+
+
+
+;;;;;; Small AMPHI N1 PARTICLE  (Josef's)
+;;;;;; for polarity testing 
+
+[ moleculetype ]
+; molname  	nrexcl
+  SN1	    	1
+
+[ atoms ]
+;id 	type 	resnr 	residu 	atom 	cgnr 	charge 	mass
+ 1 	SN1 	1 	SN1	SN1	1 	0       72
+
+
+;;;;;; Small C6 PARTICLE  (Josef's)
+;;;;;; for polarity testing 
+
+[ moleculetype ]
+; molname  	nrexcl
+  SC6	    	1
+
+[ atoms ]
+;id 	type 	resnr 	residu 	atom 	cgnr 	charge 	mass
+ 1 	SC6 	1 	SC6	SC6	1 	0       72
+
+
+;;;;;; Small C5 PARTICLE  (Josef's)
+;;;;;; for polarity testing 
+
+[ moleculetype ]
+; molname  	nrexcl
+  SC5	    	1
+
+[ atoms ]
+;id 	type 	resnr 	residu 	atom 	cgnr 	charge 	mass
+ 1 	SC5 	1 	SC5	SC5	1 	0       72
+
+
+
+
 ;;;;;; ISOPROPANOL
 
 [ moleculetype ]
