@@ -1,0 +1,20 @@
+Sim in ./sim2_awh_fluid_AWHk2k_pull10k_linear_
+SP6 has perme 
+0.17341940686795193
+
+Sim in ./sim2_awh_fluid_AWHk2k_pull10k_linear_
+SP3 has perme 
+35.277703633203835
+
+Sim in ./sim2_awh_fluid_AWHk2k_pull10k_linear_
+SN5 has perme 
+401.9713726772274
+
+Sim in ./sim2_awh_fluid_AWHk2k_pull10k_linear_
+SN3 has perme 
+2049.3280059103663
+
+Sim in ./sim2_awh_fluid_AWHk2k_pull10k_linear_
+SN1 has perme 
+10359.593555077241
+
