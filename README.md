@@ -46,4 +46,5 @@ The more hydrophilic, the more water dragged inside and the more the cost for pe
 
 This part of research is contained in the latest commits above or below this message. 
 Its placement in in the folder structure is not the most optimal, but let's work with it as an exception for the time being. 
-This is/will be noted in the corresponding Readme file. 
+This is noted in the corresponding Readme file, 
+[here.](martini3/cholesterol00p_PC_variousTails_sims/saturation_DPPC-POPC_titration/perm_particle_EOLS/dopc-unsat_0-169_d_100/README.md)
