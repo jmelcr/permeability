@@ -38,3 +38,5 @@ the more it drags water inside the membrane tail region;
 
 ![degree of solvation of various permeants changes with their hydrophilicity](degree_of_solvation_profiles_zoomin.png)
 
+The manually aggregated results from these permeability assays and POW values from Martini3 paper
+are included in the [CSV file *sheet...csv*](sheet_pow_perm_var-particles.csv). 
