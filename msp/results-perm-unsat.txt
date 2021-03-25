@@ -1,0 +1,18 @@
+Next, we have determined the permeability coefficient through lipid membranes of variable degree of unsaturation, d, between 1 (i.e., DOPC bilayer) and 0 (i.e., DPPC bilayer) for L-lactic and formic acid, and glycerol (Figure 3b).
+
+From both our measurements and MD simulations, we observe that decreasing the unsaturation of the phospholipid acyl chains in the membranes leads to a corresponding gradual decrease of the permeability coefficent for all the studied compounds.  As in the case of the increasing acyl chain lengths above (Fig. 3), also here the decrease of the permeability coefficients arise from a wider and higher free energy profiles in Fig. 3b ABCxy. 
+
+In line with our previous work {Gabba et al. 2020}, the effects of the degree of unsaturation on the permeability coefficient are almost independent of the chemical nature of the permeants in the range of d between 1 and 0.17 (Fig 3b).
+
+
+For membranes with a lower degree of unsaturation below d=0.17, however, we observe much more dramatic changes of the permeability coefficients.  Namely, the permeability coefficient through DOPC (d=1.0) versus DPPC (d=0.0) membranes decreases approximately 200-fold for water, and 2000-fold for formic acid and glycerol.  Moreover, Permeation of lactic acid was not observed in the DPPC vesicles, on the timescale of 10 hours. 
+
+
+Such a huge leap in the permeability coefficient arises mainly from the highly decreased solubility of the compounds in the membranes with low degrees of unsaturation as seen in Fig 3b ABCxy.  The free energy profiles from MD simulations show not only a wider but also much higher barriers, which form the major contribution to the decrease of the permeability coefficients.  In addition, the mobility of the permeating solutes is significantly decreased as seen in the friction profiles (Fig 3b, ABCxy), slowing the permeation further. 
+
+
+Such sudden non-smooth changes of membrane properties including the permeability coefficient are directly linked to the phase state of the membranes.  In Fig 3b, we plot the calculated permeability coefficents from simulations of the same membrane composition under the same conditions, but at a different phase, either Ld or Lβ.  The membrane phase state remains {\italics meta-stable } in the simulation time scales giving rise to two distinct values for the permeability coefficient in the region of d between 0.15 and 0.05.  While the free energy and friction profiles from the membrane at the Ld phase compare well to those from the POPC membrane (Ld phase at the same conditions), the profiles from membranes at the Lβ phase are similar to those from DPPC membrane (Lβ phase). 
+
+
+We corroborate our findings by DSC measurements which show a decresing membrane melting temperature with increasing unsaturation degree d (Fig. S2 in SI).  In particular, the POPC/DPPC mixtures with d=0.17 and d=0.34 form a stable Ld phase with an interface to the Lβ phase through possible coexistence.  This leads from their corresponding DSC curves in Fig. S2 in SI, with broad transition peaks around 24°C (d = 0.34) and 34°C (d = 0.17), which extend also to the temperature of the permeability experiments and simulations, 20°C.  The phase coexistence has been reported in fluorescnece measurements using probe partitioning in GUVs prepared from the same lipid species (Shimokawa et al 2015).  The permeability coefficients for such compositions hence largely depend on the phase state of the membrane including possible phase coexistence. 
+
