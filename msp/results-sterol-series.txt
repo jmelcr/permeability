@@ -13,13 +13,33 @@ are shown in Figure 4, and all values are in Table 4.
 
 
 For the membranes with POPC (d=0.5), 
-...
-
-We show that both ergosterol and cholesterol in POPC vesicles 
-leads to a small but significant decrease in permeability, 
-which is most pronounced for cholesterol. 
+both sterols, ergosterol and cholesterol, 
+lead to a small but significant decrease in permeability;
+about 4 fold for ergosterol and 9 fold for cholesterol. 
 Similar effects are observed 
 when titrating both sterols in vesicles composed of DOPC (table SI.5 AND figure S4). 
+
+The effects of additional cholesterol concentrations from simulations 
+are smaller in magnitude than in the experiment, 
+but in line with the general trend. 
+The free energy profiles from the simulations 
+reveal a gradual increase in the height and width of the free energy barrier
+with increasing sterol concentration. 
+This feature is the most pronounced 
+for the POPC membrane with 45% cholesterol,
+which also reflects the change from Ld to the LO phase. 
+
+
+The free energy profiles are TK ...
+this 
+
+##############################
+SIMULATIONS - effects on POPC + sterols
+describe how the AWH profiles change with additional sterols 
+and that the membrane shifts to a LO phase,
+ which hase the most pronounced profile.
+Higher wider - like in the case of thicker membranes
+
 As the membrane phase gradually changes with increasing sterol concentration through phase coexistence, 
 the measured and simulated permeability coefficients do not reveal discontinuities 
 like in the case of membranes without sterols (Fig 3). 
