@@ -1,162 +1,41 @@
 # Sterols modulate permeability by affecting membrane properties and phase state. 
 
-Many biological membranes contain a varying amount of sterols,
-which increases the complexity of their properties and phase behaviour. 
-To assess such effects on the permeability of weak acids through 
-we have studied membranes with different sterol concentration from 15 to 45%. 
-We have selected cholesterol and ergosterol, 
-which are the main sterols of mammalian cells and yeast, respectively, 
-and are predominantly found in the plasma membrane (Gunstone, 1996a, Gunstone, 1996b). 
-Permeability coefficients 
-of membranes with varying concentrations of sterols and unsaturation index
-from experiments and simulations 
-are shown in Figure 4, and all values are in Table 4. 
+Many biological membranes contain a varying amount of sterols, which increases the complexity of their properties and phase behaviour.  To assess such effects on the permeability of weak acids through we have studied membranes with different sterol concentration from 15 to 45%.  We have selected cholesterol and ergosterol, which are the main sterols of mammalian cells and yeast, respectively, and are predominantly found in the plasma membrane (Gunstone, 1996a, Gunstone, 1996b).  Permeability coefficients of membranes with varying concentrations of sterols and unsaturation index from experiments and simulations are shown in Figure 4, and all values are in Table 4. 
 
 
 # Sterols decrease permeability coefficient in fluid membranes.
 
-For the membranes with POPC (d=0.5), 
-both sterols, ergosterol and cholesterol, 
-lead to a small but significant decrease in permeability;
-in line with the known smaller condensing effect of erogsterol compared to cholesterol
-on lipid bilayer structure 
-(Hung et al. 2016 Biophys J, Urbina et al. BBA1995), 
-the decrease of permeability coefficient is only about 4-fold for ergosterol, 
-but 9-fold for cholesterol. 
-Similar effects are observed 
-when titrating both sterols in vesicles composed of DOPC (table SI.5 AND figure S4). 
-Our simulations show
-that in analogy to the effects of a decreasing unsaturation index from membranes without sterols (Fig 5), 
-the permeability coefficient decreases
-with increasing sterol concentration in fluid POPC membranes 
-because of higher and wider free energy barriers (Fig 4D).
-The effects of additional cholesterol concentrations to a POPC membrane from simulations 
-are smaller in magnitude than in the experiment, 
-but in line with the general trend. 
+For the membranes with POPC (d=0.5), both sterols, ergosterol and cholesterol, lead to a small but significant decrease in permeability; in line with the known smaller condensing effect of erogsterol compared to cholesterol on lipid bilayer structure (Hung et al. 2016 Biophys J, Urbina et al. BBA1995), the decrease of permeability coefficient is only about 4-fold for ergosterol, but 9-fold for cholesterol.  Similar effects are observed when titrating both sterols in vesicles composed of DOPC (table SI.5 AND figure S4).  Our simulations show that in analogy to the effects of a decreasing unsaturation index from membranes without sterols (Fig 5), the permeability coefficient decreases with increasing sterol concentration in fluid POPC membranes because of higher and wider free energy barriers (Fig 4D).  The effects of additional cholesterol concentrations to a POPC membrane from simulations are smaller in magnitude than in the experiment, but in line with the general trend. 
 
 
-The phase change from Ld to LO
-occuring in the simulations between POPC with 15% and 30% sterol concentration
-leads to a notable emerging shoulder in the profile around 1.0 nm distance from the membrane centre
-where it is accompanied by a small depression in the profile (0.0 nm) in Fig 4D. 
-The corresponding changes of the permeability coefficients and free energy profiles
-are in accordance with our experiments (Fig 4 and Fig S4) 
-as well as with the recent simulation works
-comparing the permeability of water through membranes at LO and Ld phases (Ghysels et al. 2019). 
-Such characteristic features of the free energy profiles from the LO phase 
-are linked to the sterol-induced changes in 
-lipid packing (Cournia 2007JPCB) 
-and in the lateral pressure profile (Ollila 2007 Journal of Structural Biology). 
-Unless a phase transition occurs, 
-the shoulder in the profile continues to smoothly build up 
-with decreasing unsaturation index towards DPPC (i.e., towards d=0.0)
-as shown in Fig SxyMDchol_unsatur in SI.
+The phase change from Ld to LO occuring in the simulations between POPC with 15% and 30% sterol concentration leads to a notable emerging shoulder in the profile around 1.0 nm distance from the membrane centre where it is accompanied by a small depression in the profile (0.0 nm) in Fig 4D.  The corresponding changes of the permeability coefficients and free energy profiles are in accordance with our experiments (Fig 4 and Fig S4) as well as with the recent simulation works comparing the permeability of water through membranes at LO and Ld phases (Ghysels et al. 2019).  Such characteristic features of the free energy profiles from the LO phase are linked to the sterol-induced changes in lipid packing (Cournia 2007JPCB) and in the lateral pressure profile (Ollila 2007 Journal of Structural Biology).  Unless a phase transition occurs, the shoulder in the profile continues to smoothly build up with decreasing unsaturation index towards DPPC (i.e., towards d=0.0) as shown in Fig SxyMDchol_unsatur in SI.
 
 
 
 
 # Permeability through saturated DPPC membranes with sterols is governed by its phase behaviour 
 
-Titration of sterols into fully saturated DPPC bilayers has the opposite effect on solute permeability
-compared to the fluid POPC membranes. 
-In both experiments and simulations,
-we observe an overall increase of the permeability coefficient 
-of about one order of magnitude between DPPC membranes with 0 and 45% of cholesterol or ergosterol. 
-Such a large difference is caused by the change of the membrane phase 
-from Lβ to LO upon addition of sterols to DPPC membranes. 
+Titration of sterols into fully saturated DPPC bilayers has the opposite effect on solute permeability compared to the fluid POPC membranes.  In both experiments and simulations, we observe an overall increase of the permeability coefficient of about one order of magnitude between DPPC membranes with 0 and 45% of cholesterol or ergosterol.  Such a large difference is caused by the change of the membrane phase from Lβ to LO upon addition of sterols to DPPC membranes. 
 
 
-Also conversely to the effects on the fluid POPC membrane, 
-additional sterol concentrations in fully saturated DPPC membranes
-perturb the highly ordered acyl chains of the DPPC lipids
-leading to a significant decrease of the friction coefficient 
-from a DPPC bilayer to DPPC with 15% cholesterol concentration (Fig 4E). 
-As the Free energy profiles 
-for the DPPC membrane with 0% and 15% concentration of cholesterol 
-are comparable in height and width,
-the change in the friction through the membranes at Lβ phase 
-is also a large factor affecting the difference in the permeability coefficient
-between the two membrane compositions. 
+Also conversely to the effects on the fluid POPC membrane, additional sterol concentrations in fully saturated DPPC membranes perturb the highly ordered acyl chains of the DPPC lipids leading to a significant decrease of the friction coefficient from a DPPC bilayer to DPPC with 15% cholesterol concentration (Fig 4E).  As the Free energy profiles for the DPPC membrane with 0% and 15% concentration of cholesterol are comparable in height and width, the change in the friction through the membranes at Lβ phase is also a large factor affecting the difference in the permeability coefficient between the two membrane compositions. 
 
-Interestingly, 
-the added cholesterol concentrations
-prevent water molecules to follow the permeating solute 
-into the membrane hydrophobic core (Fig 4F). 
-While water molecules can follow the permeating solutes 
-into the DPPC membrane even below 1.0 nm (Fig 4F),
-adding 15% cholesterol concentration to the membrane
-keeps the water molecules from entering below that threshold. 
-This is linked to the shift of the free energy barrier 
-from 0.5 nm in DPPC to 1.3 nm in DPPC with 15% cholesterol 
-as the additional sterols enforce solute dewetting 
-further from the hydrophobic region of the membrane. 
-This effect is caused by the highly anizotropic structure of the DPPC bilayer at a Lβ phase,
-which forms "wedge-like" defects to accommodate the permeating solutes 
-through its highly ordered structure 
-exposing an accessible surface for the solvent molecules to enter "for free", 
-but such cavities are filled by the sterols. 
+Interestingly, the added cholesterol concentrations prevent water molecules to follow the permeating solute into the membrane hydrophobic core (Fig 4F).  While water molecules can follow the permeating solutes into the DPPC membrane even below 1.0 nm (Fig 4F), adding 15% cholesterol concentration to the membrane keeps the water molecules from entering below that threshold.  This is linked to the shift of the free energy barrier from 0.5 nm in DPPC to 1.3 nm in DPPC with 15% cholesterol as the additional sterols enforce solute dewetting further from the hydrophobic region of the membrane.  This effect is caused by the highly anizotropic structure of the DPPC bilayer at a Lβ phase, which forms "wedge-like" defects to accommodate the permeating solutes through its highly ordered structure exposing an accessible surface for the solvent molecules to enter "for free", but such cavities are filled by the sterols. 
 
 
-Adding more sterols to the fully saturated DPPC membrane above 15% cholesterol 
-in the simulations
-leads to a change in the membrane phase from Lβ to LO phase
-and another order of magnitude increase in the permeability coefficient, 
-which is a direct consequence of the dramatically lowered free energy barrier (Fig 4D). 
-In contrast,
-adding more sterols to the membrane at the LO phase from 30% to 45% cholesterol 
-leads to a decrease of the permeability coefficient
-similarly as in the case of the membranes with POPC.
-As both compositions are at the same LO phase, 
-this effect can be attributed to the condensing effect of cholesterol
-on lipid bilayer structure (Hung et al. 2016 Biophys J, Urbina et al. BBA1995). 
+Adding more sterols to the fully saturated DPPC membrane above 15% cholesterol in the simulations leads to a change in the membrane phase from Lβ to LO phase and another order of magnitude increase in the permeability coefficient, which is a direct consequence of the dramatically lowered free energy barrier (Fig 4D).  In contrast, adding more sterols to the membrane at the LO phase from 30% to 45% cholesterol leads to a decrease of the permeability coefficient similarly as in the case of the membranes with POPC.  As both compositions are at the same LO phase, this effect can be attributed to the condensing effect of cholesterol on lipid bilayer structure (Hung et al. 2016 Biophys J, Urbina et al. BBA1995). 
 
-In summary, 
-the permeability coefficients decrease with the membrane fluidity 
-in the order Ld > LO > Lβ,  
+In summary, the permeability coefficients decrease with the membrane fluidity in the order Ld > LO > Lβ,  
 each transition leading to an order of magnitude change in the permeability coefficient. 
 
 
 # The phase behaviour of ergosterol and cholesterol in DPPC membranes is different leading to distinct effects on the permeability
 
-The phase transitions between LO and Lβ phases 
-occur differently for ergosterol and cholesterol.
-While adding a relatively small amount of sterols (15 mol%) to a DPPC bilayer in the Lβ phase 
-increases the membrane permeability coefficient for formic acid,
-approximately 13-fold for cholesterol in experiments,
-it does so only 4-fold for ergosterol (Fig 4B). 
-Also as opposed to cholesterol,
-increasing the concentration of ergosterol in DPPC membranes up to 45% 
-leads to a gradual increase of the permeability coefficient for formic acid,
-suggesting a smooth change of membrane phase from Lβ to LO through phase coexistence. 
+The phase transitions between LO and Lβ phases occur differently for ergosterol and cholesterol.  While adding a relatively small amount of sterols (15 mol%) to a DPPC bilayer in the Lβ phase increases the membrane permeability coefficient for formic acid, approximately 13-fold for cholesterol in experiments, it does so only 4-fold for ergosterol (Fig 4B).  Also as opposed to cholesterol, increasing the concentration of ergosterol in DPPC membranes up to 45% leads to a gradual increase of the permeability coefficient for formic acid, suggesting a smooth change of membrane phase from Lβ to LO through phase coexistence. 
 
-The membrane phase state of DPPC with 15% and 30% cholesterol or ergosterol 
-is in a mixed coexistence of Lβ and LO phases (Table S5 in SI) 
-as confirmed by our DSC measurements (Fig S3 in SI).
-The DPPC membrane with 15% cholesterol in MD simulations forms a stable Lβ phase,
-but the DPPC membrane with 30% cholesterol forms a stable LO phase 
-yielding a large change in the free energy profile 
-and a corresponding increase in the permeability coefficient. 
-Comparison of the changes of the permeability coefficients between simulations and experiments
-suggests that ergosterol has a higher tendency to form a Lβ phase,
-while cholesterol already forms prefereably a LO phase at the same composition. 
-This is well in line with the observed overall
-smaller effects of ergosterol on the lipid bilayer structure compared to that of cholesterol 
-(Hung et al. 2016 Biophys J, Urbina et al. BBA1995). 
+The membrane phase state of DPPC with 15% and 30% cholesterol or ergosterol is in a mixed coexistence of Lβ and LO phases (Table S5 in SI) as confirmed by our DSC measurements (Fig S3 in SI).  The DPPC membrane with 15% cholesterol in MD simulations forms a stable Lβ phase, but the DPPC membrane with 30% cholesterol forms a stable LO phase yielding a large change in the free energy profile and a corresponding increase in the permeability coefficient.  Comparison of the changes of the permeability coefficients between simulations and experiments suggests that ergosterol has a higher tendency to form a Lβ phase, while cholesterol already forms prefereably a LO phase at the same composition.  This is well in line with the observed overall smaller effects of ergosterol on the lipid bilayer structure compared to that of cholesterol (Hung et al. 2016 Biophys J, Urbina et al. BBA1995). 
 
-This also explains the intrigueing behaviour of L-lactic acid,
-which has more than one order of magnitude lower permeability coefficient compared to formic acid
-making it hard to permeate through the membranes with DPPC and measure in the experiments (Table S5 in SI). 
-We have detected a measurable signal from L-lactic acid 
-only for DPPC vesicles with 30% and 45% of ergosterol 
-yielding comparably large relative changes of the permeability coefficients 
-to those from the formic acid (Fig 4B). 
-Interestingly enough,
-no permeation of L-lactic acid on the timescale of 10 hours 
-was detected through DPPC vesicles with cholesterol (Fig 4A). 
-This observation is in line with the known higher condensing effect of cholesterol compared to ergosterol
-and that cholesterol forms aggregates at higher concentrations,
-which prevent the permeation 
-(Hung et al. 2016 Biophys J, Urbina et al. BBA1995, Barrett et al. 2013, Elkins JPCB2021).
+This also explains the intrigueing behaviour of L-lactic acid, which has more than one order of magnitude lower permeability coefficient compared to formic acid making it hard to permeate through the membranes with DPPC and measure in the experiments (Table S5 in SI).  We have detected a measurable signal from L-lactic acid only for DPPC vesicles with 30% and 45% of ergosterol yielding comparably large relative changes of the permeability coefficients to those from the formic acid (Fig 4B).  Interestingly enough, no permeation of L-lactic acid on the timescale of 10 hours was detected through DPPC vesicles with cholesterol (Fig 4A).  This observation is in line with the known higher condensing effect of cholesterol compared to ergosterol and that cholesterol forms aggregates at higher concentrations, which prevent the permeation (Hung et al. 2016 Biophys J, Urbina et al. BBA1995, Barrett et al. 2013, Elkins JPCB2021).
 
 
 
@@ -168,19 +47,7 @@ which prevent the permeation
 
 
 ### CAPTION OF FIG 4 ####
-Figure 4. A, B, C. Relative permeability coefficients as a function of cholesterol (A, C) and ergosterol (B) concentration in POPC or DPPC liposomes from experiments (A, B) and simulations (C). 
-The permeability coefficients for each solute are normalized to the value in POPC vesicles, i.e. 
-without sterol present. 
-The error bars of the experimental measurements reflect mainly 
-from the inaccuracy of the vesicle size distribution. 
-The error bars from the simulations were calculated using standard chain rules for propagating errors, 
-which arise mainly from the uncertainty of the free energy profiles. 
-The error bars of the experimental measurements reflect mainly 
-from the inaccuracy of the vesicle size distribution. 
-The numerical values are presented in supplementary table S5.
+Figure 4. A, B, C. Relative permeability coefficients as a function of cholesterol (A, C) and ergosterol (B) concentration in POPC or DPPC liposomes from experiments (A, B) and simulations (C).  The permeability coefficients for each solute are normalized to the value in POPC vesicles, i.e.  without sterol present.  The error bars of the experimental measurements reflect mainly from the inaccuracy of the vesicle size distribution.  The error bars from the simulations were calculated using standard chain rules for propagating errors, which arise mainly from the uncertainty of the free energy profiles.  The error bars of the experimental measurements reflect mainly from the inaccuracy of the vesicle size distribution. The numerical values are presented in supplementary table S5.
 
-D, E. Free energy (D), friction (E) and solvent proximity (F) profiles 
-from simulated membranes at Ld phase and Lβ or LO phase with various cholesterol concentrations. 
-Uncertainty of the profiles is represented by the thickness of the lines. 
-The largest changes in the profiles and in the permeability coefficients 
+D, E, F. Free energy (D), friction (E) and solvent proximity (F) profiles from simulated membranes at Ld phase and Lβ or LO phase with various cholesterol concentrations.  Uncertainty of the profiles is represented by the thickness of the lines.  The largest changes in the profiles and in the permeability coefficients 
 are between simulations at different phase states. 
