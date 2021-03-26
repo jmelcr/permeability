@@ -18,27 +18,33 @@ lead to a small but significant decrease in permeability;
 about 4 fold for ergosterol and 9 fold for cholesterol. 
 Similar effects are observed 
 when titrating both sterols in vesicles composed of DOPC (table SI.5 AND figure S4). 
-
-The effects of additional cholesterol concentrations from simulations 
+The effects of additional cholesterol concentrations to a POPC membrane from simulations 
 are smaller in magnitude than in the experiment, 
 but in line with the general trend. 
-The free energy profiles from the simulations 
-reveal a gradual increase in the height and width of the free energy barrier
-with increasing sterol concentration. 
-This feature is the most pronounced 
-for the POPC membrane with 45% cholesterol,
-which also reflects the change from Ld to the LO phase. 
 
+Increasing the sterol concentration in fluid POPC membranes 
+increases the height and width of the free energy barrier (Fig 4D),
+similarly to the effects of a decreasing unsaturation index from membranes without sterols (Fig 5). 
+This leads to a corresponding decrease of the calculated permeability coefficient (Fig 4 C). 
 
-The free energy profiles are TK ...
-this 
+Moreover,
+the phase change from Ld to LO
+occuring in the simulations between POPC with 15% and 30% sterol concentration
+leads to a notable emerging shoulder in the profile around 1.0 nm distance from the membrane centre
+where it is accompanied by a small depression in the profile (0.0 nm) in Fig 4 D. 
+
+These features are characteristic of the Free energy profiles from the LO phase, 
+and are linked to the sterol-induced changes in 
+lipid packing (Cournia 2007JPCB) 
+and in the lateral pressure profile (Ollila 2007 Journal of Structural Biology). 
+Unless a phase transition occurs, 
+the shoulder in the profile continues to smoothly build up 
+with decreasing unsaturation index towards DPPC (i.e., towards d=0.0)
+as shown in Fig SxyMDchol_unsatur in SI.
 
 ##############################
-SIMULATIONS - effects on POPC + sterols
-describe how the AWH profiles change with additional sterols 
-and that the membrane shifts to a LO phase,
- which hase the most pronounced profile.
-Higher wider - like in the case of thicker membranes
+TK
+##############################
 
 As the membrane phase gradually changes with increasing sterol concentration through phase coexistence, 
 the measured and simulated permeability coefficients do not reveal discontinuities 
