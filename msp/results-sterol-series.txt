@@ -43,8 +43,7 @@ The corresponding changes of the permeability coefficients and free energy profi
 are in accordance with our experiments (Fig 4 and Fig S4) 
 as well as with the recent simulation works
 comparing the permeability of water through membranes at LO and Ld phases (Ghysels et al. 2019). 
-
-These characteristic features of the Free energy profiles from the LO phase 
+Such characteristic features of the free energy profiles from the LO phase 
 are linked to the sterol-induced changes in 
 lipid packing (Cournia 2007JPCB) 
 and in the lateral pressure profile (Ollila 2007 Journal of Structural Biology). 
@@ -76,12 +75,12 @@ As the Free energy profiles
 for the DPPC membrane with 0% and 15% concentration of cholesterol 
 are comparable in height and width,
 the change in the friction through the membranes at Lβ phase 
-is a large factor affecting the difference in the permeability coefficient
+is also a large factor affecting the difference in the permeability coefficient
 between the two membrane compositions. 
 
-Moreover,
-the added 15% cholesterol concentration 
-prevents water molecules to follow the permeating solute 
+Interestingly, 
+the added cholesterol concentrations
+prevent water molecules to follow the permeating solute 
 into the membrane hydrophobic core (Fig 4F). 
 While water molecules can follow the permeating solutes 
 into the DPPC membrane even below 1.0 nm (Fig 4F),
@@ -94,7 +93,8 @@ further from the hydrophobic region of the membrane.
 This effect is caused by the highly anizotropic structure of the DPPC bilayer at a Lβ phase,
 which forms "wedge-like" defects to accommodate the permeating solutes 
 through its highly ordered structure 
-exposing an accessible surface for the solvent molecules to enter "for free". 
+exposing an accessible surface for the solvent molecules to enter "for free", 
+but such cavities are filled by the sterols. 
 
 
 Adding more sterols to the fully saturated DPPC membrane above 15% cholesterol 
@@ -118,7 +118,8 @@ each transition leading to an order of magnitude change in the permeability coef
 
 # The phase behaviour of ergosterol and cholesterol in DPPC membranes is different leading to distinct effects on the permeability
 
-The phase transitions occurs differently for ergosterol and cholesterol.
+The phase transitions between LO and Lβ phases 
+occur differently for ergosterol and cholesterol.
 While adding a relatively small amount of sterols (15 mol%) to a DPPC bilayer in the Lβ phase 
 increases the membrane permeability coefficient for formic acid,
 approximately 13-fold for cholesterol in experiments,
@@ -126,7 +127,7 @@ it does so only 4-fold for ergosterol (Fig 4B).
 Also as opposed to cholesterol,
 increasing the concentration of ergosterol in DPPC membranes up to 45% 
 leads to a gradual increase of the permeability coefficient for formic acid,
-suggesting a smooth change of membrane phase from Lβ to LO through coexistence. 
+suggesting a smooth change of membrane phase from Lβ to LO through phase coexistence. 
 
 The membrane phase state of DPPC with 15% and 30% cholesterol or ergosterol 
 is in a mixed coexistence of Lβ and LO phases (Table S5 in SI) 
@@ -139,13 +140,13 @@ Comparison of the changes of the permeability coefficients between simulations a
 suggests that ergosterol has a higher tendency to form a Lβ phase,
 while cholesterol already forms prefereably a LO phase at the same composition. 
 This is well in line with the observed overall
-smaller effects of ergosterol on lipid bilayer structure compared to that of cholesterol 
+smaller effects of ergosterol on the lipid bilayer structure compared to that of cholesterol 
 (Hung et al. 2016 Biophys J, Urbina et al. BBA1995). 
 
 This also explains the intrigueing behaviour of L-lactic acid,
 which has more than one order of magnitude lower permeability coefficient compared to formic acid
 making it hard to permeate through the membranes with DPPC and measure in the experiments (Table S5 in SI). 
-We have measured a detectable signal from L-lactic acid 
+We have detected a measurable signal from L-lactic acid 
 only for DPPC vesicles with 30% and 45% of ergosterol 
 yielding comparably large relative changes of the permeability coefficients 
 to those from the formic acid (Fig 4B). 
