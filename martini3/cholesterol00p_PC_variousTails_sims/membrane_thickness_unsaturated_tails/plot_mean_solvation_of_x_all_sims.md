@@ -222,7 +222,7 @@ for sim in sims:
 
 fig.figure.set_size_inches([4.4,2.2])
 
-fig.set_xlabel("distance / nm")
+fig.set_xlabel("distance (nm)")
 fig.set_ylabel("mean solvation")
         
 fig.figure.savefig("mean_solvation_profiles.png", dpi=150, bbox_inches='tight')
@@ -243,7 +243,7 @@ for sim in sims:
             pass
 
 fig.figure.set_size_inches([3.0,2.2])
-fig.set_xlabel("distance / nm")
+fig.set_xlabel("distance from membrane center (nm)")
 fig.set_ylabel("solvent accessibility")
 
 fig.set_xlim([-0.1, 4.1])
