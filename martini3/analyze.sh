@@ -90,7 +90,7 @@ do
    # get densities of (ethanol, water, solvent) centered around POPC
    if ! [ -s $dens_file_name ] 
    then
-       ts -L $wd bash -c "echo Membrane Solvent | $gmx density -sl 400 -dens number -ng 1 -f $traj_file_name -center -symm -relative -o $dens_file_name -n ../index.ndx"
+       ts -L $wd bash -c "echo Membrane W | $gmx density -sl 400 -dens number -ng 1 -f $traj_file_name -center -symm -relative -o $dens_file_name -n ../../../index.ndx"
    fi
    #[ ! -s lipidator.out ] && ts -L ${wd} bash -c "${rd}/resis ${traj_file_name} ${rd}/martini.ldx ../../lipidator.ndx > lipidator.out"
 
