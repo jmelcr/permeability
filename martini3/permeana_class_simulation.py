@@ -141,6 +141,7 @@ class Simulation:
         and comparing the values
         
         returns tuple with two values (permeability and , its err.estim.)
+        units: cm/s e-3
         """
         
         # locate the awh file (friction file has the same naming convention format, se we will only simply substitute)
@@ -182,7 +183,7 @@ class Simulation:
             fepsymm  = symmetrize(fep)
             fricsymm = symmetrize(fric)
             xsymm    = x[:fepsymm[0].shape[0]]
-            rxsymm    = np.exp(fepsymm[0]-fepsymm[0][:m].mean())*fricsymm[0]/1000.0    # r(x) = resistance
+            rxsymm    = np.exp(fepsymm[0]-fepsymm[0][:m].mean())*fricsymm[0]/1000.0    # r(x) = resistance; units [nm-2 ps e+3]
             # use value of 100.0 instead of "*fricsymm[1]" to simplify the equation and error estimate?
             rxstdsymm = ( np.exp(fepsymm[0])*fricsymm[1] + np.exp(fepsymm[1])*fricsymm[0] )/1000.0    # error of r(x) through chain rule
             r         = np.trapz(x=xsymm[m:], y=rxsymm[m:]) *2.0   # *2, because i have only half of the profile after symmetrizing it
@@ -190,11 +191,11 @@ class Simulation:
         else:
             # set the zero-level (solvent) to 0 from one resp. other side
             rx1  = np.exp(fep-fep[-m:].mean())*fric/1000.0    # r(x) ...
-            rx2  = np.exp(fep-fep[:m].mean()) *fric/1000.0    # resistance in ns/nm resp s/m
+            rx2  = np.exp(fep-fep[:m].mean()) *fric/1000.0    # resistance in ns/nm2 
             r = np.trapz(x=x[m:-m], y=np.vstack((rx1, rx2))[:,m:-m])
 
-        unit_scaling_factor = 100000.0  # provides unit cm/s *e-3 from simulation units (kT and ps)d
-        perm      = unit_scaling_factor/r   # in nm/us*e-4 resp cm/s*e-3
+        unit_scaling_factor = 100000.0     # provides unit cm/s *e-3 from the simulation units (kT and ps) and r(x) in the above units
+        perm      = unit_scaling_factor/r  # permeability [cm/s *e-3]
         try: 
             permstd = perm**2 * rstd /unit_scaling_factor   # is the same as: perm*rstd/r
         except:
