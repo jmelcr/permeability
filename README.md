@@ -23,6 +23,13 @@ in each respective membrane composition;
 e.g. [here](simulations/cholesterol45p_PC_variousTails_sims/prep_min_eq/long_eq)
  the initial configuration for the simulation of DPPC with 45% cholesterol
 
+Installation of the required software and 
+using the scripts to perform the simulations
+requires a subtantial practical knowledge of 
+Molecular Dynamics simulations,
+and may require several hours 
+on sufficient computational resources to run. 
+
 ### Analysis scripts of the simulation trajectories
 I have also included the **analysis scripts of the simulation trajectories**
 In order to reproduce the simulations,
@@ -40,6 +47,12 @@ It is specifically written
 for the environment of the supercomputing facility *Cartesius*,
 and needs to be adapted for use elsewhere. 
 Commands in the script also contain explaining comments. 
+
+To use the analysis scripts,
+existing simulation(s) as described above 
+need to be present. 
+The analysis itself is usually done within one minute per simulation on a usual workstation. 
+
 
 ### Notebooks calculating membrane properties, permeability coefficients and creating plots
 The **ipython notebooks calculate the membrane properties** 
@@ -64,6 +77,15 @@ This option can be chosen by simply skipping the cells in the notebook
 that read the raw unprocessed simulation data from disk
 and executing directly the cells that load the mentioned CSV dataset. 
 Rich annotations in the notebook provide guidance on how to proceed further. 
+
+In order to use the notebooks,
+several python packages need to be installed 
+(see the list below). 
+The notebooks do not execute computational intensive code 
+and run interactively on a normal laptop. 
+Example expected output 
+is provided in the folder [output_figures](simulations/output_figures),
+which contains "PNG" figures containing plots of the simulation data. 
 
 
 ## Used software 
