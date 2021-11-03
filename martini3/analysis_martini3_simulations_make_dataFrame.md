@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ---
 jupyter:
   jupytext:
@@ -160,8 +161,8 @@ for s in sims:
     if "DOPC" in s.dirname:
         print("➡️ Found DOPC simulation in dir {}".format(s.dirname))
         dopc_sim = s
-        
 ```
+
 
 Now, sort the lists after sterol concentrations:
 
@@ -226,9 +227,10 @@ plt.legend()
 fig = plt.gca()
 fig.figure.set_size_inches([6.2,4.0])
 plt.ylim([-1, 11])
+plt.xlim([-0.1, 4.1])
 plt.ylabel("Free energy (kT)")
-plt.xlabel("distance from membrane center (nm)")
-plt.savefig("awh_dG_profiles_all_sterol-concs-{}.png".format(xxpc, particle), dpi=150, bbox_inces='tight')
+plt.xlabel("Distance from membrane center (nm)")
+plt.savefig("awh_dG_profiles_all_sterol-concs-{}.png".format(xxpc, particle), dpi=300, bbox_inces='tight')
 plt.show()
 ```
 
@@ -263,9 +265,9 @@ for sim_list, xxpc in zip([po_sims, dp_sims], ["POPC", "DPPC"]):
 fig = plt.gca()
 fig.figure.set_size_inches([6.2,4.0])
 plt.legend()
-plt.ylabel("friction (ps nm$^{-2}$ kT)")
-plt.xlabel("distance from membrane center (nm)")
-plt.savefig("friction_profiles_all_sterol-concs-{}.png".format(xxpc, particle), dpi=150, bbox_inces='tight')
+plt.ylabel("Friction (ps nm$^{-2}$ kT)")
+plt.xlabel("Distance from membrane center (nm)")
+plt.savefig("friction_profiles_all_sterol-concs-{}.png".format(xxpc, particle), dpi=300, bbox_inces='tight')
 plt.show()
 ```
 
@@ -294,9 +296,9 @@ for sim_list, xxpc in zip([po_sims, dp_sims], ["POPC", "DPPC"]):
     plt.legend()
     plt.yscale("log")
     plt.ylim([1e3, 3e5])
-    plt.ylabel("friction (ps nm$^{-2}$ kT)")
-    plt.xlabel("distance from the membrane center (nm)")
-    plt.savefig("friction_profiles_{}_sterol-concs-{}-log.png".format(xxpc, particle), dpi=150, bbox_inces='tight')
+    plt.ylabel("Friction (ps nm$^{-2}$ kT)")
+    plt.xlabel("Distance from the membrane center (nm)")
+    plt.savefig("friction_profiles_{}_sterol-concs-{}-log.png".format(xxpc, particle), dpi=300, bbox_inces='tight')
     plt.show()
 ```
 
@@ -398,8 +400,8 @@ fig = plt.gca()
 fig.figure.set_size_inches([4.4,6.0])
 plt.ylim([-1, 14.5])
 plt.ylabel("Free energy (kT)")
-plt.xlabel("distance from membrane center (nm)")
-plt.savefig("awh_dG_profiles_all_unsat-ndx-{}.png".format(particle), dpi=150, bbox_inches='tight')
+plt.xlabel("Distance from membrane center (nm)")
+plt.savefig("awh_dG_profiles_all_unsat-ndx-{}.png".format(particle), dpi=300, bbox_inches='tight')
 plt.show()
 ```
 
@@ -435,9 +437,9 @@ plt.legend()
 #plt.ylim([-1, 14.5])
 fig = plt.gca()
 fig.figure.set_size_inches([4.4,6.0])
-plt.ylabel("friction (ns nm$^{-2}$ kT)")
-plt.xlabel("distance from membrane center (nm)")
-plt.savefig("friction_profiles_selected_unsat-ndx-{}.png".format(particle), dpi=150, bbox_inches='tight')
+plt.ylabel("Friction (ns nm$^{-2}$ kT)")
+plt.xlabel("Distance from membrane center (nm)")
+plt.savefig("friction_profiles_selected_unsat-ndx-{}.png".format(particle), dpi=300, bbox_inches='tight')
 plt.show()
 ```
 
@@ -453,8 +455,8 @@ for s in sims:
             print(s.dirname)
     except:
         pass
-        
 ```
+
 
 ```python
 sims_chol45.sort(key=lambda s: s.d)
@@ -483,8 +485,8 @@ for sim_list, xxpc in zip([sims_chol45,], ["all", ]):
 
 plt.legend(bbox_to_anchor=[1.04, 1.06])
 plt.ylabel("Free energy (kT)")
-plt.xlabel("distance from membrane center (nm)")
-plt.savefig("awh_dG_profiles_various-d_sterol-conc45-{}.png".format(xxpc, particle), dpi=150, bbox_inches='tight')
+plt.xlabel("Distance from membrane center (nm)")
+plt.savefig("awh_dG_profiles_various-d_sterol-conc45-{}.png".format(xxpc, particle), dpi=300, bbox_inches='tight')
 plt.show()
 ```
 
@@ -504,8 +506,8 @@ for s in sims:
             print(s.dirname)
     except:
         pass
-        
 ```
+
 
 ```python
 sims_chol30.sort(key=lambda s: s.d)
@@ -534,8 +536,8 @@ for sim_list, xxpc in zip([sims_chol30,], ["all", ]):
 
 plt.legend(bbox_to_anchor=[1.04, 1.06])
 plt.ylabel("Free energy (kT)")
-plt.xlabel("distance from membrane center (nm)")
-plt.savefig("awh_dG_profiles_various-d_sterol-conc30-{}.png".format(xxpc, particle), dpi=150, bbox_inches='tight')
+plt.xlabel("Distance from membrane center (nm)")
+plt.savefig("awh_dG_profiles_various-d_sterol-conc30-{}.png".format(xxpc, particle), dpi=300, bbox_inches='tight')
 plt.show()
 ```
 
@@ -555,8 +557,8 @@ for s in sims:
             print(s.dirname)
     except:
         pass
-        
 ```
+
 
 ```python
 sims_chol15.sort(key=lambda s: s.d)
@@ -585,8 +587,8 @@ for sim_list, xxpc in zip([sims_chol15,], ["all", ]):
 
 plt.legend(bbox_to_anchor=[1.04, 1.06])
 plt.ylabel("Free energy (kT)")
-plt.xlabel("distance from membrane center (nm)")
-plt.savefig("awh_dG_profiles_various-d_sterol-conc15-initcond-gel-{}.png".format(xxpc, particle), dpi=150, bbox_inches='tight')
+plt.xlabel("Distance from membrane center (nm)")
+plt.savefig("awh_dG_profiles_various-d_sterol-conc15-initcond-gel-{}.png".format(xxpc, particle), dpi=300, bbox_inches='tight')
 plt.show()
 ```
 
@@ -628,8 +630,8 @@ for sim_list, memphase in zip([dp_sims, po_sims], [u"$L_β$", u"$L_d$"]):
 
 plt.legend(bbox_to_anchor=[1.04, 1.06])
 plt.ylabel("Free energy (kT)")
-plt.xlabel("distance from membrane center (nm)")
-plt.savefig("awh_dG_profiles_various-d_sterol-conc00-initcond-gel-{}.png".format(xxpc, particle), dpi=150, bbox_inches='tight')
+plt.xlabel("Distance from membrane center (nm)")
+plt.savefig("awh_dG_profiles_various-d_sterol-conc00-initcond-gel-{}.png".format(xxpc, particle), dpi=300, bbox_inches='tight')
 plt.show()
 ```
 

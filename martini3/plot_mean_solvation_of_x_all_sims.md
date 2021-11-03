@@ -23,6 +23,7 @@ as a function of the distance from the membrane center (from `pullx`).
 import pandas as pd
 import numpy as np
 import seaborn as sns
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import os, fnmatch
 import pickle
@@ -175,10 +176,15 @@ class Simulation:
         return fig
 ```
 
-# Plot the average numcont value per bin/gridpoint
+# Solvent accessibility & average solvaiton profiles 
+by plotting whether there is at least one molecule within cutoff 
+& the average numcont value per bin/gridpoint
+
 This property does not need to be reweighted as the averages per each bin 
 are independent. 
 Only sufficient amount of sampling is necessary. 
+
+Here, selecting all simulation folders containing the pullx file (which is totally necessarry).
 
 ```python
 # find all pullx files in the curdir and below
@@ -195,73 +201,223 @@ for f in pullx_files:
 
 ```
 
-```python
-# list of selected particles for plotting (selected a few for clarity of the plot)
-selected_particles = ["SC5", "SP3", "SP6", "SN2", "SN3"]
-# hydrophobic levels as defined in the publication for the selected particles (in the same order!)
-selected_particles_hydrophobic_levels = ["IX", "II", "I", "VI", "V"]
-# dictionary for particle-name :: hydrophobic-level translation  
-# (particle names are in dirnames, but levels are desired in the legends)
-particle_names_to_levels = { k:v for (k, v) in zip(selected_particles, selected_particles_hydrophobic_levels)}
+## POPC + sterols membranes
 
-# select a nice palette
-sns.set_palette("viridis", n_colors=len(selected_particles))
+```python
+#selected_particles = ["SC5", "SP3", "SP6", "SN2", "SN3"]
+sns.set_palette("Blues_r", n_colors=4)  #len(sims))
+
+# use a larger font
+mpl.rcParams.update({'font.size': 13})
+```
+
+```python
+# selection for "all" and "any" functions
+# these shall select simulations with d=0 (saturated) and the listed sterol concentrations
+sel_kwords_dirname = ["EOLS", "d_50"]
+sel_kwords_dirname_any = ["0p", "15p", "30p", "45p"]
+```
+
+```python
+# set the plotting label from the dirname
+sims_popc = []
+for s in sims:
+    # this shall select the sterol concentration as written in the directory name
+    # and apply it as an attribute "label" to the simulation instance
+    s.label = s.dirname[13:15]
+    if all(x in s.dirname for x in sel_kwords_dirname) and any(x in s.dirname for x in sel_kwords_dirname_any) and not any(x in s.dirname for x in ["AWHk", "(1)"]):
+        print(s.dirname)
+        sims_popc.append(s)
 ```
 
 ```python
 # sort the list of simulations after their particle name (follows solubility, yay!)
-sims.sort(key=lambda sim: sim.dirname[-3:])
+sims.sort(key=lambda sim: sim.label)
 ```
 
 ```python
-# make a plot of the solvatation profile for each simulation 
+# make a plot of the solvent accessibility profile for each simulation 
 for sim in sims:
-    if any(x in sim.dirname for x in selected_particles):
+    s = sim
+    if all(x in s.dirname for x in sel_kwords_dirname) and any(x in s.dirname for x in sel_kwords_dirname_any) and not any(x in s.dirname for x in ["AWHk", "(1)"]):   #any(x in sim.dirname for x in selected_particles):
         try: 
-            fig = sim.plot_mean_solv_profile(plt_label=sim.dirname[-3:])
+            fig = sim.plot_mean_solv_profile(plt_label="{}% chol.".format(sim.label), plt_solvdeg=True)
         except:
             pass
 
+#fig.figure.set_size_inches([4.4,2.2])
+fig.set_xlabel("Distance from membrane center (nm)")
+fig.set_ylabel("Solvent accessibility")
+
+fig.set_xlim([-0.1, 4.1])
+fig.figure.savefig("solvent_accessibility_profiles_unsatur-d50_sterol-series.png", dpi=300, bbox_inches='tight')
+
 fig.figure.set_size_inches([4.4,2.2])
+fig.set_xlim([0.0,3.0])
+fig.figure.savefig("solvent_accessibility_profiles_unsatur-d50_sterol-series_zoomin.png", dpi=300, bbox_inches='tight')
+
+```
+
+```python
+# make a plot of the mean solvation profile for each simulation 
+for sim in sims:
+    s = sim
+    if all(x in s.dirname for x in sel_kwords_dirname) and any(x in s.dirname for x in sel_kwords_dirname_any) and not any(x in s.dirname for x in ["AWHk", "(1)"]):  #any(x in sim.dirname for x in selected_particles):
+        try: 
+            fig = sim.plot_mean_solv_profile(plt_label="{}% chol.".format(sim.label))
+        except:
+            pass
+
+#fig.figure.set_size_inches([4d.4,2.2])
+
 fig.set_xlabel("Distance from membrane center (nm)")
 fig.set_ylabel("Mean solvation")
         
-fig.figure.savefig("mean_solvation_profiles.png", dpi=300, bbox_inches='tight')
+fig.figure.savefig("mean_solvation_profiles_unsatur-d50_sterol-series.png", dpi=300, bbox_inches='tight')
 
-fig.set_xlim([0.5,2.2])
-fig.set_ylim([-0.1, 8.0])
-fig.figure.savefig("mean_solvation_profiles_zoomin.png", dpi=300, bbox_inches='tight')
+#fig.set_xlim([0.5,2.2])
+#fig.set_ylim([-0.1, 8.0])
+#fig.figure.savefig("mean_solvation_profiles_zoomin.png", dpi=150, bbox_inches='tight')
 
 ```
 
+## DPPC + sterols membranes
+
 ```python
-# make a plot of the solvatation profile for each simulation 
+#selected_particles = ["SC5", "SP3", "SP6", "SN2", "SN3"]
+sns.set_palette("Reds_r", n_colors=4)  #len(sims))
+```
+
+```python
+# selection for "all" and "any" functions
+# these shall select simulations with d=0 (saturated) and the listed sterol concentrations
+sel_kwords_dirname = ["EOLS", "d_0"]
+sel_kwords_dirname_any = ["0p", "15p", "30p", "45p"]
+```
+
+```python
+# set the plotting label from the dirname
+sims_dppc = []
+for s in sims:
+    # this shall select the sterol concentration as written in the directory name
+    # and apply it as an attribute "label" to the simulation instance
+    s.label = s.dirname[13:15]
+    if all(x in s.dirname for x in sel_kwords_dirname) and any(x in s.dirname for x in sel_kwords_dirname_any) and not any(x in s.dirname for x in ["AWHk", "(1)"]):
+        print(s.dirname)
+        sims_dppc.append(s)
+```
+
+```python
+# sort the list of simulations after their particle name (follows solubility, yay!)
+sims.sort(key=lambda sim: sim.label)
+```
+
+```python
+# make a plot of the solvent accessibility profile for each simulation 
 for sim in sims:
-    if any(x in sim.dirname for x in selected_particles):
+    s = sim
+    if all(x in s.dirname for x in sel_kwords_dirname) and any(x in s.dirname for x in sel_kwords_dirname_any) and not any(x in s.dirname for x in ["AWHk", "(1)"]):   #any(x in sim.dirname for x in selected_particles):
         try: 
-            curr_part_name = sim.dirname[-3:]
-            curr_hydrophobic_level = particle_names_to_levels[curr_part_name]
-            fig = sim.plot_mean_solv_profile(plt_label=curr_hydrophobic_level, plt_solvdeg=True)
+            fig = sim.plot_mean_solv_profile(plt_label="{}% chol.".format(sim.label), plt_solvdeg=True)
         except:
             pass
 
-fig.figure.set_size_inches([2.4,2.2])
-plt.xlim([0.0, 3.0])
-plt.legend(loc="right")
+#fig.figure.set_size_inches([4.4,2.2])
 fig.set_xlabel("Distance from membrane center (nm)")
 fig.set_ylabel("Solvent accessibility")
+
+fig.set_xlim([-0.1, 4.1])
+fig.figure.savefig("solvent_accessibility_profiles_satur-d0_sterol-series.png", dpi=300, bbox_inches='tight')
+
+fig.figure.set_size_inches([4.4,3.8])
+fig.set_xlim([0.0,3.0])
+fig.figure.savefig("solvent_accessibility_profiles_satur-d0_sterol-series_zoomin.png", dpi=300, bbox_inches='tight')
+
+```
+
+```python
+# make a plot of the mean solvation profile for each simulation 
+for sim in sims:
+    s = sim
+    if all(x in s.dirname for x in sel_kwords_dirname) and any(x in s.dirname for x in sel_kwords_dirname_any) and not any(x in s.dirname for x in ["AWHk", "(1)"]):  #any(x in sim.dirname for x in selected_particles):
+        try: 
+            fig = sim.plot_mean_solv_profile(plt_label="{}% cholesterol".format(sim.label))
+        except:
+            pass
+
+#fig.figure.set_size_inches([4.4,2.2])
+
+fig.set_xlabel("Distance from membrane center (nm)")
+fig.set_ylabel("Mean solvation")
         
-fig.figure.savefig("solvent_accessibility_profiles.png", dpi=300, bbox_inches='tight')
+fig.figure.savefig("mean_solvation_profiles_satur-d0_sterol-series.png", dpi=300, bbox_inches='tight')
+
+#fig.set_xlim([0.5,2.2])
+#fig.set_ylim([-0.1, 8.0])
+#fig.figure.savefig("mean_solvation_profiles_zoomin.png", dpi=150, bbox_inches='tight')
+
 ```
 
 ```python
 
 ```
 
-# I/O of the collected data
+## Plot both DPPC and POPC + sterols together!
 
-Save the list of Simulation class instances as a pickled object and
-prepare a cell to load it again for later quick use. 
+```python
+sims_dppc.reverse()
+sims_selplot = sims_popc + sims_dppc
+```
+
+```python
+for s in sims_selplot:
+    print(s.dirname)
+```
+
+```python
+# let's use some cool palette!
+sns.set_palette("PRGn", n_colors=len(sims_selplot))
+
+# use a larger font
+mpl.rcParams.update({'font.size': 13})
+```
+
+```python
+# make a plot of the solvent accessibility profile for each simulation 
+for sim in sims_selplot:
+    s = sim
+    # Dirty hack:
+    if "d_0" in sim.dirname:
+        lipid_name = "DPPC"
+    else:
+        lipid_name = "POPC"
+    if True:
+        try: 
+            fig = sim.plot_mean_solv_profile(plt_label="{}, {}% chol.".format(lipid_name, sim.label), plt_solvdeg=True)
+        except:
+            pass
+
+fig = plt.gca()
+fig.figure.set_size_inches([6.2,4.0])
+
+#fig.figure.set_size_inches([4.4,2.2])
+fig.set_xlabel("Distance from membrane center (nm)")
+fig.set_ylabel("Solvent accessibility")
+
+fig.set_xlim([-0.1, 4.1])
+fig.figure.savefig("solvent_accessibility_profiles_satur-d0and50_sterol-series.png", dpi=300, bbox_inches='tight')
+
+#fig.figure.set_size_inches([4.4,3.8])
+#fig.set_xlim([0.0,3.0])
+#fig.figure.savefig("solvent_accessibility_profiles_satur-d0and50_sterol-series_zoomin.png", dpi=150, bbox_inches='tight')
+
+```
+
+```python
+
+```
+
+## Object I/O — Save it/load it — pickle
 
 ```python
 # save the list of simulations
@@ -272,10 +428,11 @@ with open("mean_solvation_obj_list.pickle", 'bw') as picfile:
 ```
 
 ```python
-# read the list of Simulation class instances from a pickled file
+# load the list of simulations
 with open("mean_solvation_obj_list.pickle", 'br') as picfile: 
     sims = pickle.load(picfile)
-
+    print("Loaded the list of Simulation class instances.")
+    
 ```
 
 ```python
