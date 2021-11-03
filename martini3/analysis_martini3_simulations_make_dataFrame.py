@@ -226,7 +226,7 @@ plt.ylim([-1, 11])
 plt.xlim([-0.1, 4.1])
 plt.ylabel("Free energy (kT)")
 plt.xlabel("Distance from membrane center (nm)")
-plt.savefig("awh_dG_profiles_all_sterol-concs-{}.png".format(xxpc, particle), dpi=300, bbox_inces='tight')
+plt.savefig("awh_dG_profiles_all_sterol-concs-{}.png".format(particle), dpi=300, bbox_inces='tight')
 plt.show()
 
 # %% [markdown]
