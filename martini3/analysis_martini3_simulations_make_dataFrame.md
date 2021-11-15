@@ -220,6 +220,10 @@ for sim_list, xxpc in zip([po_sims, dp_sims], ["POPC", "DPPC"]):
                                      y2=awhsym-awhsym_err,
                                      label="{},{: 3d}% {}.".format(xxpc, s.sterol_conc, s.sterol_type[:-1]),
                                      alpha=0.7)
+                    fep_df = pd.DataFrame(data={"x [nm]" : s.awh_x, "Free energy profile [kT]" : s.awh})
+                    fep_df.to_excel("table_free-energy-profile_particle-level-III_lipid-{}_{}sterol-conc-{}.xls".format(
+                        xxpc, s.sterol_type[:-1], s.sterol_conc))
+
             except:
                 print("troubles plotting simulation in {}".format(s.dirname))
 
@@ -392,6 +396,10 @@ for sim_list, memphase in zip([dp_sims, po_sims], [u"$L_β$", u"$L_d$"]):
                                      y2=awhsym-awhsym_err,
                                      label=None,
                                      alpha=0.5)
+                    fep_df = pd.DataFrame(data={"x [nm]" : s.awh_x, "Free energy profile [kT]" : s.awh})
+                    fep_df.to_excel("table_free-energy-profile_particle-level-III_lipid-saturind-d-{}_phase-{}_sterol-conc-0.xls".format(
+                        s.d, memphase))
+
             except:
                 print("troubles plotting simulation in {}".format(s.dirname))
 

@@ -242,6 +242,10 @@ for sim in sims:
             curr_part_name = sim.dirname[-3:]
             curr_hydrophobic_level = particle_names_to_levels[curr_part_name]
             fig = sim.plot_mean_solv_profile(plt_label=curr_hydrophobic_level, plt_solvdeg=True)
+            sim.degree_of_solv.iloc[:, :3].to_excel(
+                "table_solvent-accessibility-profile_particle-{}_level-{}.xls".format(
+                    curr_part_name, curr_hydrophobic_level))
+
         except:
             pass
 

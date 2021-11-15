@@ -497,7 +497,7 @@ for s in sims:
     s.pname = s.dirname[-3:]
     # calculate permeability and record the profiles
     print("Sim in dir {}\n has permeability {} +/- {} cm/s e-3".format(s.dirname, s.perm, s.permerr))
-        
+
 
 # %% [markdown]
 # Now, sort the lists after the particle name:
@@ -740,5 +740,26 @@ with open("all_sims_various-particles.pickle", "bw") as f: pickle.dump(sims, f)
 
 # %%
 with open("all_sims_various-particles.pickle", "br") as f: sims = pickle.load(f)
+
+# %%
+## Export the free energy profiles to a xls table (or similar)
+
+# %%
+for sim_list, xxpc in zip([sims, ], ["DOPC", ]):
+    for s in sim_list:
+        if (xxpc == 'DOPC') and s.pname.startswith("S"):
+            print("Working with sim in dir {}".format(s.dirname))
+            try:
+                    try: 
+                        curr_hydrophobic_level = particle_names_to_levels[s.pname]
+                    except:
+                        curr_hydrophobic_level = "XY"
+                    (x_half, awhsym, awhsym_err) = prep_to_plot(s.awh_x, s.awh)
+                    fep_df = pd.DataFrame(data={"x [nm]" : s.awh_x, "Free energy profile [kT]" : s.awh})
+                    fep_df.to_excel("table_free-energy-profile_particle-{}_level-{}.xls".format(s.pname, curr_hydrophobic_level))
+                    
+            except:
+                print("troubles plotting simulation in {}".format(s.dirname))
+
 
 # %%

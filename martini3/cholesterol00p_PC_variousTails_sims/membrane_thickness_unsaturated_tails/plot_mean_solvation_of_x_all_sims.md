@@ -239,6 +239,9 @@ for sim in sims:
     if True:   #any(x in sim.dirname for x in selected_particles):
         try: 
             fig = sim.plot_mean_solv_profile(plt_label=sim.label, plt_solvdeg=True)
+            sim.degree_of_solv.iloc[:, :3].to_excel(
+                "table_solvent-accessibility-profile_particle-level-III_lipid-tail-{}.xls".format(sim.label))
+
         except:
             pass
 

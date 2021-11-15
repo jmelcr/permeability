@@ -476,7 +476,7 @@ sim.dirname
 sim.thick
 ```
 
-# AWH profiles plotting
+# AWH profiles plotting  (continue here after loading pickle file at the bottom of this notebook)
 As working with the pickled objects also requires defining the Simulation class,
 I will make the AWH-profile plots here in this notebook. 
 
@@ -548,6 +548,9 @@ for sim_list, xxpc in zip([sims, ], ["PC", ]):
                                      y1=awhsym+awhsym_err,
                                      y2=awhsym-awhsym_err,
                                      label="{}".format(s.label))
+                    fep_df = pd.DataFrame(data={"x [nm]" : s.awh_x, "Free energy profile [kT]" : s.awh})
+                    fep_df.to_excel("table_free-energy-profile_particle-III_lipid-tail-{}.xls".format(s.label))
+
             except:
                 print("troubles plotting simulation in {}".format(s.dirname))
 
@@ -557,8 +560,8 @@ for sim_list, xxpc in zip([sims, ], ["PC", ]):
     #plt.ylim([-1, 11])
     plt.xlim([-0.1, 4.1])
     plt.ylabel("Free energy (kT)")
-    plt.xlabel("distance (nm)")
-    plt.savefig("awh_dG_profiles_{}_various-thicknesses.png".format(xxpc), dpi=150, bbox_inches='tight')
+    plt.xlabel("Distance from membrane center (nm)")
+    plt.savefig("awh_dG_profiles_{}_various-thicknesses.png".format(xxpc), dpi=300, bbox_inches='tight')
     plt.show()
 ```
 
@@ -596,10 +599,24 @@ for sim_list, xxpc in zip([sims, ], ["PC", ]):
     plt.legend()
     fig = plt.gca()
     fig.figure.set_size_inches([4.4,2.2])
-    plt.ylabel("friction (ps nm$^{-2}$ (kT)$^{-1}$)")
-    plt.xlabel("distance (nm)")
-    plt.savefig("friction_profiles_{}_various-thicknesses.png".format(xxpc), dpi=150, bbox_inches='tight')
+    plt.ylabel("Friction (ps nm$^{-2}$ (kT)$^{-1}$)")
+    plt.xlabel("Distance from membrane center (nm)")
+    plt.savefig("friction_profiles_{}_various-thicknesses.png".format(xxpc), dpi=300, bbox_inches='tight')
     plt.show()
+```
+
+```python
+# save the list of simulations
+with open("awh_fric_sim_obj_list.pickle", 'bw') as picfile: 
+    pickle.dump(sims, picfile)
+    print("Saved the sims list to: ", picfile.name)
+    
+```
+
+```python
+# read the list of Simulation class instances from a pickled file
+with open("awh_fric_sim_obj_list.pickle", 'br') as picfile: 
+    sims = pickle.load(picfile)
 ```
 
 ```python

@@ -394,6 +394,8 @@ for sim in sims_selplot:
     if True:
         try: 
             fig = sim.plot_mean_solv_profile(plt_label="{}, {}% chol.".format(lipid_name, sim.label), plt_solvdeg=True)
+            sim.degree_of_solv.iloc[:, :3].to_excel(
+                "table_solvent-accessibility-profile_particle-level-III_lipid-{}_cholesterol-conc-{}.xls".format(lipid_name, sim.label))
         except:
             pass
 
